@@ -5,15 +5,26 @@
     <string name="title_top">Wellcome!</string>
     <string name="open_drawer">Open drawer</string>
     <string name="close_drawer">Close drawer</string>
-<string-array name="titles">
-    <item>Головна</item>
-    <item>Цукерки</item>
-    <item>Контакти</item>
-</string-array>
+    <string-array name="titles">
+        <item>Головна</item>
+        <item>Цукерки</item>
+        <item>Контакти</item>
+    </string-array>
+
+    <string-array name="category">
+        <item>Пʼянкі</item>
+        <item>Трюфелі</item>
+        <item>Марципани</item>
+        <item>Праліне</item>
+        <item>Горіхові</item>
+        <item>Шоколадно-карамельні</item>
+        <item>Шоколадно-кремові</item>
+    </string-array>
 
     <string name="favorite">Смакота</string>
     <string name="rating">Оцінка</string>
     <string name="favorites">Ваша улюблена цукерка:</string>
     <string name="ratingAll">Ваш рейтинг цукерок:</string>
+
 
 </resources>
