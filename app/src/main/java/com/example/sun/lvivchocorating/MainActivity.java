@@ -228,8 +228,7 @@ public class MainActivity extends Activity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
-        //Чтобы объект ActionBarDrawerToggle реагирвал на щелчки, необходимо
-        // добавить эти строки кода в метод onOptionsItemSelected()
+        //Чтобы объект ActionBarDrawerToggle реагирвал на щелчки
 
         if (drawerToggle.onOptionsItemSelected(item)) {
             return true;

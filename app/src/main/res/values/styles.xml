@@ -5,4 +5,10 @@
         <!-- Customize your theme here. -->
     </style>
 
+    <style name="MyRatingBar" parent="android:Widget.DeviceDefault.Light.RatingBar.Indicator">
+        <item name="colorControlNormal">@android:color/holo_green_light</item>
+        <item name="colorControlActivated">@android:color/holo_orange_dark</item>
+
+    </style>
+
 </resources>

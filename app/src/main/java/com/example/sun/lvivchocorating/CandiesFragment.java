@@ -1,7 +1,6 @@
 package com.example.sun.lvivchocorating;
 
 
-import android.app.Activity;
 import android.app.ListFragment;
 import android.content.Context;
 import android.content.Intent;
@@ -14,7 +13,6 @@ import android.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.CursorAdapter;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
@@ -30,7 +28,7 @@ public class CandiesFragment extends ListFragment {
     private SQLiteDatabase db;
     private Cursor cursor;
 
-    static interface CandyListListener {
+    interface CandyListListener {
         void itemClicked(long id);
         //  Добавить слушателя  к фрагменту.
     }
@@ -50,7 +48,7 @@ public class CandiesFragment extends ListFragment {
         ListView listCandy = getListView();
 
         try {
-            SQLiteOpenHelper candyDatabaseHelper = new ChokoDatabaseHelper(getActivity());
+            SQLiteOpenHelper candyDatabaseHelper = new ChocoDatabaseHelper(getActivity());
             //Получить ссылку на базу данных.
             db = candyDatabaseHelper.getReadableDatabase();
             //Создать курсор
@@ -90,12 +88,16 @@ public class CandiesFragment extends ListFragment {
         db.close();
     }
 
+
+    //переписать
+    //
+
     @Override
     public void onListItemClick(ListView l, View v, int position, long id) {
         if (listener != null) {
             //  Сообщить слушателю о то м, что
             //  на одном из вариантов ListView  был сделан щелчок
-    //        listener.itemClicked(id);
+                    listener.itemClicked(id);
 
             Intent intent = new Intent(getActivity(), CandyActivity.class);
             intent.putExtra(CandyActivity.EXTRA_CANDYNO, (int) id);

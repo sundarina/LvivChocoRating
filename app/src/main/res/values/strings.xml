@@ -10,4 +10,10 @@
     <item>Цукерки</item>
     <item>Контакти</item>
 </string-array>
+
+    <string name="favorite">Смакота</string>
+    <string name="rating">Оцінка</string>
+    <string name="favorites">Ваша улюблена цукерка:</string>
+    <string name="ratingAll">Ваш рейтинг цукерок:</string>
+
 </resources>

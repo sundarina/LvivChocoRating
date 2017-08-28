@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:weightSum="1"
+    tools:context="com.example.sun.lvivchocorating.CandyActivity">
+
+    <TextView
+        android:id="@+id/category"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAlignment="textEnd"
+        android:textColor="?android:attr/textColorHint"
+        android:textStyle="italic" />
+
+    <ImageView
+        android:id="@+id/photo"
+        android:layout_width="244dp"
+        android:layout_height="190dp"
+        android:layout_weight="0.15" />
+
+    <TextView
+        android:id="@+id/name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:id="@+id/description"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+
+    <RatingBar
+        android:id="@+id/ratingBar"
+        style="@style/MyRatingBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:numStars="10"
+        android:stepSize="1" />
+
+    <CheckBox
+        android:id="@+id/favorite"
+        android:layout_width="207dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.23"
+        android:onClick="onFavoriteClicked"
+        android:text="@string/favorite"
+        android:textSize="30sp" />
+
+
+</LinearLayout>
