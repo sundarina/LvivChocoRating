@@ -26,5 +26,9 @@
     <string name="favorites">Ваша улюблена цукерка:</string>
     <string name="ratingAll">Ваш рейтинг цукерок:</string>
 
+    <string name="create_order_title">Замовити</string>
+
+    <string name="welcome_text">Визнач свою найулюбленішу цукерку прямо тут і прямо зараз!</string>
+
 
 </resources>

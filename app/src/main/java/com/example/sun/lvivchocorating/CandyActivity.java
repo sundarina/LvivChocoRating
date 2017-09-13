@@ -55,7 +55,7 @@ public class CandyActivity extends Activity {
                 description.setText(descriptionText);
 
                 //Заполнение категории
-                TextView category = (TextView) findViewById(R.id.category);
+                TextView category = (TextView) findViewById(R.id.info_category);
                 category.setText(categoryText);
 
                 //Заполнение изображения напитка
@@ -68,7 +68,7 @@ public class CandyActivity extends Activity {
                 favorite.setChecked(isFavorite);
 
                 //Заполнение рейтингa
-                RatingBar ratingBar = (RatingBar) findViewById(R.id.ratingBar);
+                RatingBar ratingBar = (RatingBar) findViewById(R.id.info_ratingBar);
                 ratingBar.setRating(ratingNum);
 
             }
@@ -91,7 +91,7 @@ public class CandyActivity extends Activity {
         new UpdateCandyTask().execute(candyNo);
     }
 
-    //Внутренний класс для обновления напитка.AsyncTask добавляется в активность в виде внутреннего класса.
+    //Внутренний класс для обновления конфет.AsyncTask добавляется в активность в виде внутреннего класса.
     private class UpdateCandyTask extends AsyncTask<Integer, Void, Boolean> {
         ContentValues candyValues;
         int ratingNO = 0;
@@ -104,7 +104,7 @@ public class CandyActivity extends Activity {
 
         protected void onPreExecute() {
             CheckBox favorite = (CheckBox) findViewById(R.id.favorite);
-            RatingBar ratingBar = (RatingBar) findViewById(R.id.ratingBar);
+            RatingBar ratingBar = (RatingBar) findViewById(R.id.info_ratingBar);
 
             ratingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
 
