@@ -27,8 +27,10 @@
     <string name="ratingAll">Ваш рейтинг цукерок:</string>
 
     <string name="create_order_title">Замовити</string>
+    <string name="order_activity">Замовлення</string>
 
     <string name="welcome_text">Визнач свою найулюбленішу цукерку прямо тут і прямо зараз!</string>
+    <string name="title_activity_candy_detail">Цукерочка</string>
 
 
 </resources>

@@ -107,7 +107,7 @@ public class MainActivity extends Activity {
                             currentPosition = 0;
                         }
 
-                        if (fragment instanceof CandiesFragment) {
+                        if (fragment instanceof CandiesMaterialFragment) {
                             currentPosition = 1;
                         }
 
@@ -131,7 +131,7 @@ public class MainActivity extends Activity {
         Fragment fragment;
         switch (position) {
             case 1:
-                fragment = new CandiesFragment();
+                fragment = new CandiesMaterialFragment();
                 break;
             case 2:
                 fragment = new ContactsFragment();
@@ -156,15 +156,6 @@ public class MainActivity extends Activity {
         drawerLayout.closeDrawer(drawerList);
     }
 
-    @Override
-    public boolean onPrepareOptionsMenu(Menu menu) {
-        //Если выдвижная панель открыта, скрыть элементы, связанные с контентом
-        //Задать видимость действия Share при открытии и закрытии выдвижной панели
-        boolean drawerOpen = drawerLayout.isDrawerOpen(drawerList);
-        menu.findItem(R.id.action_share).setVisible(!drawerOpen);
-        return super.onPrepareOptionsMenu(menu);
-    }
-
 
     //Вызывается при каждом вызове invalidateOptionsMenu()
 
@@ -184,11 +175,6 @@ public class MainActivity extends Activity {
         drawerToggle.onConfigurationChanged(newConfig);
     }
 
-    @Override public void onSaveInstanceState(Bundle outState){
-        super.onSaveInstanceState(outState);
-        outState.putInt("position", currentPosition);
-    }
-
 
     private void setActionBarTitle(int position) {
         String title;
@@ -206,6 +192,14 @@ public class MainActivity extends Activity {
         getActionBar().setTitle(title);
     }
 
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        //Если выдвижная панель открыта, скрыть элементы, связанные с контентом
+        //Задать видимость действия Share при открытии и закрытии выдвижной панели
+        boolean drawerOpen = drawerLayout.isDrawerOpen(drawerList);
+        menu.findItem(R.id.action_share).setVisible(!drawerOpen);
+        return super.onPrepareOptionsMenu(menu);
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -216,13 +210,6 @@ public class MainActivity extends Activity {
         return super.onCreateOptionsMenu(menu);
     }
 
-
-    private void setIntent(String text) {
-        Intent intent = new Intent(Intent.ACTION_SEND);
-        intent.setType("text/plain");
-        intent.putExtra(Intent.EXTRA_TEXT, text);
-        shareActionProvider.setShareIntent(intent);
-    }
 
 
     @Override
@@ -235,14 +222,27 @@ public class MainActivity extends Activity {
         }
 
         switch (item.getItemId()) {
-//            case R.id.action_create_order:
-//                Intent intent = new Intent(this, OrderActivity.class);
-//                startActivity(intent);
-//                return true;
+            case R.id.action_create_order:
+                Intent intent = new Intent(this, OrderActivity.class);
+                startActivity(intent);
+                return true;
             case R.id.action_settings:
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
     }
+
+    private void setIntent(String text) {
+        Intent intent = new Intent(Intent.ACTION_SEND);
+        intent.setType("text/plain");
+        intent.putExtra(Intent.EXTRA_TEXT, text);
+        shareActionProvider.setShareIntent(intent);
+    }
+
+    @Override public void onSaveInstanceState(Bundle outState){
+        super.onSaveInstanceState(outState);
+        outState.putInt("position", currentPosition);
+    }
+
 }

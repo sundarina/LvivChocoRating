@@ -45,14 +45,16 @@ public class ChocoDatabaseHelper extends SQLiteOpenHelper {
             db.execSQL("CREATE TABLE CANDY(_id INTEGER PRIMARY KEY AUTOINCREMENT, "
                     + "NAME TEXT, " + "DESCRIPTION TEXT, " + "CATEGORY TEXT, " + "IMAGE_RESOURCE_ID INTEGER);");
             //Вставить данные каждой конфеты в отдельную строку
-            insertDrink(db, "Веселі драчки (м'ята)", "Вершкова м'яка карамель з додаванням білого шоколаду з ароматом м'яти у чорному шоколаді", "Шоколадно-карамельні", R.drawable.veseli_drachky_myatni);
+            insertCandy(db, "Веселі драчки (м'ята)", "Вершкова м'яка карамель з додаванням білого шоколаду з ароматом м'яти у чорному шоколаді", "Шоколадно-карамельні", R.drawable.veseli_drachky_myatni);
+         //   this.onCreate(db);
         }
         if (oldVersion < 2) {
-            db.execSQL("ALTER TABLE CANDY ADD COLUMN FAVORITE NUMERIC, RATING INTEGER;");
+            db.execSQL("ALTER TABLE CANDY ADD COLUMN FAVORITE NUMERIC," + " RATING INTEGER;");
+          //  this.onCreate(db);
         }
     }
 
-    private static void insertDrink(SQLiteDatabase db, String name,
+    private static void insertCandy(SQLiteDatabase db, String name,
                                     String description, String category, int resourceId) {
         ContentValues candyValues = new ContentValues();
         candyValues.put("NAME", name);

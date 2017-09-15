@@ -16,6 +16,7 @@
         android:textAlignment="textEnd"
         android:textColor="?android:attr/textColorHint"
         android:textStyle="italic" />
+
     <TextView
         android:id="@+id/candy_text"
         android:layout_width="wrap_content"
@@ -24,7 +25,7 @@
 
     <TextView
         android:id="@+id/candy_description"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 
     <ImageView
@@ -41,5 +42,13 @@
         android:layout_height="wrap_content"
         android:numStars="10"
         android:stepSize="1" />
+
+    <CheckBox
+        android:id="@+id/candy_favorite"
+        android:onClick="onFavoriteClicked"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/favorite"
+        android:textSize="30sp" />
 
 </LinearLayout>

@@ -1,4 +1,5 @@
 package com.example.sun.lvivchocorating;
+
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -7,6 +8,9 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * RecyclerView не работает со встроенными
@@ -26,23 +30,28 @@ import android.widget.TextView;
 
 public class CaptionedImagesAdapter extends RecyclerView.Adapter<CaptionedImagesAdapter.ViewHolder> {
 
-    private String[] captions;
-    private int[] imageIds;
-    private String [] category;
-    private int [] rating;
-    private Listener listener;
+//    private String[] captions;
+//    private int[] imageIds;
+//    private String [] category;
+//    private int [] rating;
+//    private Listener listener;
 
-    /**При щелчке на любой из карточек в RecyclerView будет вызываться метод
-     onClick() интерфейса Listener. Затем в PizzaMaterialFragment добавляется
-     код реализации интерфейса; это позволит фрагменту отреагировать на щелчки
-     и запустить активность
-     1 Пользователь щелкает на карточке в RecyclerView.
-     2 Вызывается метод onClick() интерфейса Listener.
-     3  Mетод onClick() реализован в PizzaMaterialFragment.
-     Код фрагмента запускает PizzaDetailActivity.
+
+    private Listener listener;
+    private ArrayList<Candy> candyArrayList;
+
+    /**
+     * При щелчке на любой из карточек в RecyclerView будет вызываться метод
+     * onClick() интерфейса Listener. Затем в PizzaMaterialFragment добавляется
+     * код реализации интерфейса; это позволит фрагменту отреагировать на щелчки
+     * и запустить активность
+     * 1 Пользователь щелкает на карточке в RecyclerView.
+     * 2 Вызывается метод onClick() интерфейса Listener.
+     * 3  Mетод onClick() реализован в PizzaMaterialFragment.
+     * Код фрагмента запускает PizzaDetailActivity.
      */
 
-    public static interface  Listener{
+    public static interface Listener {
         public void onClick(int position);
     }
 
@@ -71,14 +80,18 @@ public class CaptionedImagesAdapter extends RecyclerView.Adapter<CaptionedImages
     }
 
     //Данные передаються через конструктор
-    public CaptionedImagesAdapter(String[] captions, int[] imageIds, String[] category, int[] rating) {
-        this.captions = captions;
-        this.imageIds = imageIds;
-        this.category = category;
-        this.rating = rating;
+//    public CaptionedImagesAdapter(String[] captions, int[] imageIds, String[] category, int[] rating) {
+//        this.captions = captions;
+//        this.imageIds = imageIds;
+//        this.category = category;
+//        this.rating = rating;
+//    }
+
+    public CaptionedImagesAdapter(List<Candy> candyList) {
+        this.candyArrayList = (ArrayList<Candy>) candyList;
     }
 
-    public void setListener(Listener listener){
+    public void setListener(Listener listener) {
         //Активности и фрагменты используют этот метод для регистрации себя в качестве слушателя
         this.listener = listener;
     }
@@ -103,23 +116,23 @@ public class CaptionedImagesAdapter extends RecyclerView.Adapter<CaptionedImages
 
         //  Drawable drawable = ContextCompat.getDrawable(getActivity(), imageIds[position]);
 
-        imageView.setImageDrawable(cardView.getResources().getDrawable(imageIds[position]));
-        imageView.setContentDescription(captions[position]);
+        imageView.setImageDrawable(cardView.getResources().getDrawable(candyArrayList.get(position).getImageId()));
+        imageView.setContentDescription(candyArrayList.get(position).getName());
 
         TextView textView = (TextView) cardView.findViewById(R.id.info_text);
-        textView.setText(captions[position]);
+        textView.setText(candyArrayList.get(position).getName());
 
         TextView textView1 = (TextView) cardView.findViewById(R.id.info_category);
-        textView1.setText(category[position]);
+        textView1.setText(candyArrayList.get(position).getCategory());
 
         RatingBar ratingBar = (RatingBar) cardView.findViewById(R.id.info_ratingBar);
-        ratingBar.setRating(rating[position]);
+        ratingBar.setRating(candyArrayList.get(position).getRating());
 
 
-        cardView.setOnClickListener(new View.OnClickListener(){
+        cardView.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view){
-                if (listener != null){
+            public void onClick(View view) {
+                if (listener != null) {
                     //При щелчке на CardView вызвать метод onClick() интерфейса Listener.
                     listener.onClick(position);
                 }
@@ -132,8 +145,7 @@ public class CaptionedImagesAdapter extends RecyclerView.Adapter<CaptionedImages
     // Длинна массива  = количеству элементов данных в RecyclerView
     @Override
     public int getItemCount() {
-        return captions.length;
+        return 100;
+        //  return candyArrayList.size();
     }
-
-
 }
