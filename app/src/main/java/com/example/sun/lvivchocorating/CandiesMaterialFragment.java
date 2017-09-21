@@ -9,7 +9,6 @@ import android.os.Bundle;
 import android.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -74,7 +73,6 @@ public class CandiesMaterialFragment extends Fragment {
         // CaptionedImagesAdapter adapter = new CaptionedImagesAdapter(candyNames, candyImages, candyCategories, candyRatings);
         CaptionedImagesAdapter adapter = new CaptionedImagesAdapter(candyList);
         candyRecycler.setAdapter(adapter);
-
 
         GridLayoutManager gridLayoutManager = new GridLayoutManager(getActivity(), 2);
         candyRecycler.setLayoutManager(gridLayoutManager);

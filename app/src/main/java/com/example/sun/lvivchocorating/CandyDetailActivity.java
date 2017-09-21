@@ -81,7 +81,6 @@ public class CandyDetailActivity extends Activity {
                 imageView.setContentDescription(nameText);
 
                 //Заполнение описания напитка
-                description = (TextView) findViewById(R.id.candy_description);
                 description.setText(descriptionText);
 
                 //Заполнение категории
@@ -92,6 +91,7 @@ public class CandyDetailActivity extends Activity {
                 ratingBar = (RatingBar) findViewById(R.id.candy_ratingBar);
                 ratingBar.setRating(ratingNum);
 
+                description = (TextView) findViewById(R.id.candy_description);
                 //Заполнение флажка любимого напитка
                 CheckBox favorite = (CheckBox) findViewById(R.id.candy_favorite);
                 favorite.setChecked(isFavorite);
