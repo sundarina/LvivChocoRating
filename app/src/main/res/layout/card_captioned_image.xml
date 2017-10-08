@@ -34,6 +34,14 @@
             android:layout_marginBottom="5dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
+
+        <CheckBox
+            android:id="@+id/info_favourite"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/favourite"
+            android:onClick="onFavouriteClicked"/>
+
         <RatingBar
             android:id="@+id/info_ratingBar"
             style="@style/MyRatingBar"

@@ -12,9 +12,13 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CursorAdapter;
+import android.widget.SimpleCursorAdapter;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+
+import static com.example.sun.lvivchocorating.CandyDetailActivity.EXTRA_CANDYNO;
 
 
 public class CandiesMaterialFragment extends Fragment {
@@ -33,65 +37,35 @@ public class CandiesMaterialFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         databaseHelper = new ChocoDatabaseHelper(getActivity().getApplicationContext());
-        // создаем базу данных
-        databaseHelper.create_db();
 
         //использование макета
         RecyclerView candyRecycler = (RecyclerView) inflater.inflate(R.layout.fragment_candies_material, container, false);
         candyList = new ArrayList<>();
-        //   int candyNo = (Integer) getIntent().getExtras().get(EXTRA_CANDYNO);
-
-
+     //   int candyNo = (Integer) getIntent().getExtras().get(EXTRA_CANDYNO);
         try {
-            //   SQLiteOpenHelper lvivChocoDatabaseHelper = new ChocoDatabaseHelper(getActivity());
-            //  SQLiteDatabase db = lvivChocoDatabaseHelper.getWritableDatabase();
+            databaseHelper.create_db();
+            databaseHelper.openDataBase();
+            db= databaseHelper.getdb();
+            cursor = db.query(ChocoDatabaseHelper.TABLE, new String[]{ChocoDatabaseHelper.COLUMN_NAME, ChocoDatabaseHelper.COLUMN_DESCRIPTION, ChocoDatabaseHelper.COLUMN_CATEGORY, ChocoDatabaseHelper.COLUMN_IMAGE_ID, ChocoDatabaseHelper.COLUMN_FAVOURITE, ChocoDatabaseHelper.COLUMN_RATING}, null, null, null, null, null);
 
-            //Создать курсор для получения
-            // из таблицы CANDY столбцов NAME, DESCRIPTION, CATEGORY и IMAGE_RESOURCE_ID тех записей,
-            // у которых значение _id равно candyNo
-
-            //         Cursor cursor = db.query("CANDY", new String[]{"NAME", "DESCRIPTION", "CATEGORY", "IMAGE_RESOURCE_ID", "RATING"}, null, null, null, null, null);
-//            //Курсор содержит одну запись , но и в этом случае переход необходим
-
-//            if (cursor.moveToFirst()) {
-//                String nameText = cursor.getString(0);
-//                String description = cursor.getString(1);
-//                String categoryText = cursor.getString(2);
-//                int photoId = cursor.getInt(3);
-//                int ratingNum = cursor.getInt(4);
-//              // candy = new Candy(nameText, description, categoryText, photoId, ratingNum);
-//                candyList.add(new Candy(nameText, description, categoryText, photoId, ratingNum));
-//            }
-//            //Закрыть курсор и базу данных.
-//            cursor.close();
-//            db.close();
-
-
-            // открываем подключение
- //           db = databaseHelper.open();
-            //получаем данные из бд в виде курсора
-            //  cursor = db.rawQuery("select * from " + ChocoDatabaseHelper.TABLE, null);
-            // определяем, какие столбцы из курсора будут выводиться в ListView
-            // String[] headers = new String[] {ChocoDatabaseHelper.COLUMN_NAME, ChocoDatabaseHelper.COLUMN_YEAR};
-
-            cursor = db.query(ChocoDatabaseHelper.TABLE, new String[]{ChocoDatabaseHelper.COLUMN_NAME, ChocoDatabaseHelper.COLUMN_DESCRIPTION, ChocoDatabaseHelper.COLUMN_CATEGORY, ChocoDatabaseHelper.COLUMN_IMAGE_ID, ChocoDatabaseHelper.COLUMN_RATING}, null, null, null, null, null);
-
-            if(cursor.moveToFirst()){
-                String nameText = cursor.getString(0);
-                String description = cursor.getString(1);
-                String categoryText = cursor.getString(2);
-                int photoId = cursor.getInt(3);
-                int ratingNum = cursor.getInt(4);
-                candyList.add(new Candy(nameText, description, categoryText, photoId, ratingNum));
+            if (cursor.moveToFirst()) {
+                do {
+                    String nameText = cursor.getString(0);
+                    String description = cursor.getString(1);
+                    String categoryText = cursor.getString(2);
+                    int photoId = cursor.getInt(3);
+                    boolean isFavorite = (cursor.getInt(4) == 1);
+                    int ratingNum = cursor.getInt(5);
+                    candyList.add(new Candy(nameText, description, categoryText, photoId, isFavorite, ratingNum));
+                } while (cursor.moveToNext());
             }
 
         } catch (SQLiteException e) {
-            Toast toast = Toast.makeText(getActivity(), "Database unavailable", Toast.LENGTH_SHORT);
+            Toast toast = Toast.makeText(getActivity(), "Database is unavailable", Toast.LENGTH_SHORT);
             toast.show();
         }
 
 
-        // CaptionedImagesAdapter adapter = new CaptionedImagesAdapter(candyNames, candyImages, candyCategories, candyRatings);
         CaptionedImagesAdapter adapter = new CaptionedImagesAdapter(candyList);
         candyRecycler.setAdapter(adapter);
 
@@ -107,7 +81,7 @@ public class CandiesMaterialFragment extends Fragment {
             @Override
             public void onClick(int position) {
                 Intent intent = new Intent(getActivity(), CandyDetailActivity.class);
-                intent.putExtra(CandyDetailActivity.EXTRA_CANDYNO, position);
+                intent.putExtra(EXTRA_CANDYNO, position);
                 getActivity().startActivity(intent);
             }
         });

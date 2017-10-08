@@ -6,13 +6,19 @@
     tools:context=".MainActivity">
 
     <TextView
-        android:layout_width="wrap_content"
+        android:id="@+id/textView"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/title_top" />
+        android:text="@string/title_top"
+        android:textAlignment="center"
+        android:textSize="36sp" />
 
     <ListView
-        android:id="@+id/list_favorites"
+        android:id="@+id/list_favourites"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:layout_marginTop="25dp"
+        android:layout_below="@+id/textView"
+        android:layout_alignParentStart="true" />
 
 </RelativeLayout>

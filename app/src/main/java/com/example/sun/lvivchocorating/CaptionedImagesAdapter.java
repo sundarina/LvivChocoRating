@@ -5,10 +5,10 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,12 +30,6 @@ import java.util.List;
 
 public class CaptionedImagesAdapter extends RecyclerView.Adapter<CaptionedImagesAdapter.ViewHolder> {
 
-//    private String[] captions;
-//    private int[] imageIds;
-//    private String [] category;
-//    private int [] rating;
-//    private Listener listener;
-
 
     private Listener listener;
     private ArrayList<Candy> candyArrayList;
@@ -51,10 +45,9 @@ public class CaptionedImagesAdapter extends RecyclerView.Adapter<CaptionedImages
      * Код фрагмента запускает PizzaDetailActivity.
      */
 
-    public static interface Listener {
-        public void onClick(int position);
+    public interface Listener {
+        void onClick(int position);
     }
-
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
 
@@ -79,14 +72,6 @@ public class CaptionedImagesAdapter extends RecyclerView.Adapter<CaptionedImages
         }
     }
 
-    //Данные передаються через конструктор
-//    public CaptionedImagesAdapter(String[] captions, int[] imageIds, String[] category, int[] rating) {
-//        this.captions = captions;
-//        this.imageIds = imageIds;
-//        this.category = category;
-//        this.rating = rating;
-//    }
-
     public CaptionedImagesAdapter(List<Candy> candyList) {
         this.candyArrayList = (ArrayList<Candy>) candyList;
     }
@@ -110,6 +95,10 @@ public class CaptionedImagesAdapter extends RecyclerView.Adapter<CaptionedImages
     public void onBindViewHolder(ViewHolder holder, final int position) {
         //Изображение выводится в графическом представлении ImageView.
         CardView cardView = holder.cardView;
+
+        /////???????????????????
+
+
         ImageView imageView = (ImageView) cardView.findViewById(R.id.info_image);
         // Drawable drawable = cardView.getResources().getDrawable(imageIds[position]); // deprecated
         //imageView.setImageDrawable(drawable);
@@ -117,13 +106,18 @@ public class CaptionedImagesAdapter extends RecyclerView.Adapter<CaptionedImages
         //  Drawable drawable = ContextCompat.getDrawable(getActivity(), imageIds[position]);
 
         imageView.setImageDrawable(cardView.getResources().getDrawable(candyArrayList.get(position).getImageId()));
+
         imageView.setContentDescription(candyArrayList.get(position).getName());
+
 
         TextView textView = (TextView) cardView.findViewById(R.id.info_text);
         textView.setText(candyArrayList.get(position).getName());
 
         TextView textView1 = (TextView) cardView.findViewById(R.id.info_category);
         textView1.setText(candyArrayList.get(position).getCategory());
+
+        CheckBox favorite = (CheckBox) cardView.findViewById(R.id.info_favourite);
+        favorite.setChecked(candyArrayList.get(position).isFavourite());
 
         RatingBar ratingBar = (RatingBar) cardView.findViewById(R.id.info_ratingBar);
         ratingBar.setRating(candyArrayList.get(position).getRating());
@@ -145,7 +139,6 @@ public class CaptionedImagesAdapter extends RecyclerView.Adapter<CaptionedImages
     // Длинна массива  = количеству элементов данных в RecyclerView
     @Override
     public int getItemCount() {
-        return 100;
-        //  return candyArrayList.size();
+        return candyArrayList.size();
     }
 }

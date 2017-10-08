@@ -36,12 +36,8 @@ public class ChocoDatabaseHelper extends SQLiteOpenHelper {
         super(context, DB_NAME, null, SCHEMA);
         this.myContext = context;
         DB_PATH = context.getFilesDir().getPath() + DB_NAME;
-        // this.DB_PATH = "/data/data/" + context.getPackageName() + "/" + "databases/";
         Log.e("Path 1", DB_PATH);
     }
-
-
-
 
     void create_db() {
 
@@ -57,35 +53,6 @@ public class ChocoDatabaseHelper extends SQLiteOpenHelper {
             }
         }
     }
-//        InputStream myInput = null;
-//        OutputStream myOutput = null;
-//        try {
-//            File file = new File(DB_PATH);
-//            if (!file.exists()) {
-//                this.getReadableDatabase();
-//                //получаем локальную бд как поток
-//                myInput = myContext.getAssets().open(DB_NAME);
-//                // Путь к новой бд
-//                String outFileName = DB_PATH;
-//
-//                // Открываем пустую бд
-//                myOutput = new FileOutputStream(outFileName);
-//
-//                // побайтово копируем данные
-//                byte[] buffer = new byte[1024];
-//                int length;
-//                while ((length = myInput.read(buffer)) > 0) {
-//                    myOutput.write(buffer, 0, length);
-//                }
-//
-//                myOutput.flush();
-//                myOutput.close();
-//                myInput.close();
-//            }
-//        } catch (IOException ex) {
-//            Log.d("DatabaseHelper", ex.getMessage());
-//        }
-
 
     private boolean checkDataBase() {
         SQLiteDatabase checkDB = null;
@@ -112,7 +79,6 @@ public class ChocoDatabaseHelper extends SQLiteOpenHelper {
         myOutput.flush();
         myOutput.close();
         myInput.close();
-
     }
 
 
@@ -122,22 +88,6 @@ public class ChocoDatabaseHelper extends SQLiteOpenHelper {
 
     }
 
-//    public SQLiteDatabase open() throws SQLException {
-//
-//        return SQLiteDatabase.openDatabase(DB_PATH, null, SQLiteDatabase.OPEN_READWRITE);
-//    }
-
-
-//    public ChocoDatabaseHelper(Context context) {
-//        super(context, DB_NAME, null, DB_VERSION);
-//    }
-
-    /**
-     * Метод onCreate() вызывается при создании базы данных;
-     * мы используем его для создания таблицы и вставки данных.
-     */
-
-
     @Override
     public synchronized void close() {
         if (myDataBase != null)
@@ -145,10 +95,19 @@ public class ChocoDatabaseHelper extends SQLiteOpenHelper {
         super.close();
     }
 
+    /**
+     * Метод onCreate() вызывается при создании базы данных;
+     * мы используем его для создания таблицы и вставки данных.
+     */
 
     @Override
     public void onCreate(SQLiteDatabase db) {
     }
+
+    /**
+     * Метод onUpgrade() вызывается тогда, когда воз-
+     * никает необходимость в обновлении базы данных.
+     */
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
@@ -157,45 +116,16 @@ public class ChocoDatabaseHelper extends SQLiteOpenHelper {
                 copyDataBase();
             } catch (IOException e) {
                 e.printStackTrace();
-
             }
     }
 
-    public Cursor query(String table, String[] columns, String selection, String[] selectionArgs, String groupBy, String having, String orderBy) {
-        return myDataBase.query("CANDY", null, null, null, null, null, null);
+//    public Cursor query(String table, String[] columns, String selection, String[] selectionArgs, String groupBy, String having, String orderBy) {
+//        return myDataBase.query("CANDY", null, null, null, null, null, null);
+//    }
+
+
+    public SQLiteDatabase getdb() {
+        return myDataBase;
     }
-
-
-//    @Override
-//    public void onCreate(SQLiteDatabase db) {
-////        updateMyDatabase(db, 0, DB_VERSION);
-//    }
-//
-
-    /**
-     * Метод onUpgrade() вызывается тогда, когда воз-
-     * никает необходимость в обновлении базы данных.
-     */
-
-//    @Override
-//    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-////        updateMyDatabase(db, oldVersion, newVersion);
-//    }
-
-//    private void updateMyDatabase(SQLiteDatabase db, int oldVersion, int newVersion) {
-//        if (oldVersion < 1) {
-//            db.execSQL("CREATE TABLE CANDY(_id INTEGER PRIMARY KEY AUTOINCREMENT, "
-//                    + "NAME TEXT, " + "DESCRIPTION TEXT, " + "CATEGORY TEXT, " + "IMAGE_RESOURCE_ID INTEGER);");
-//            //Вставить данные каждой конфеты в отдельную строку
-//            insertCandy(db, "Веселі драчки (м'ята)", "Вершкова м'яка карамель з додаванням білого шоколаду з ароматом м'яти у чорному шоколаді", "Шоколадно-карамельні", R.drawable.veseli_drachky_myatni);
-//            //   this.onCreate(db);
-//        }
-//        if (oldVersion < 2) {
-//            db.execSQL("ALTER TABLE CANDY ADD COLUMN FAVORITE NUMERIC," + " RATING INTEGER;");
-//            //  this.onCreate(db);
-//        }
-//    }
-
-
 }
 

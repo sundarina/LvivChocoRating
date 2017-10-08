@@ -7,23 +7,15 @@ public class Candy {
     private String category;
     private int rating;
     private String description;
-    private boolean isFavorite;
+    private boolean isFavourite;
 
-    public Candy(String name, String description,  String category, int imageId, boolean isFavorite,  int rating) {
+    public Candy(String name, String description,  String category, int imageId, boolean isFavourite,  int rating) {
         this.name = name;
         this.imageId = imageId;
         this.category = category;
         this.rating = rating;
         this.description = description;
-        this.isFavorite = isFavorite;
-    }
-
-    public Candy(String name, String description,  String category, int imageId,  int rating) {
-        this.name = name;
-        this.imageId = imageId;
-        this.category = category;
-        this.rating = rating;
-        this.description = description;
+        this.isFavourite = isFavourite;
     }
 
     public String getName() {
@@ -66,12 +58,12 @@ public class Candy {
         this.description = description;
     }
 
-    public boolean isFavorite() {
-        return isFavorite;
+    public boolean isFavourite() {
+        return isFavourite;
     }
 
     public void setFavorite(boolean favorite) {
-        isFavorite = favorite;
+        isFavourite = favorite;
     }
 
     @Override
@@ -82,7 +74,7 @@ public class Candy {
                 ", category='" + category + '\'' +
                 ", rating=" + rating +
                 ", description='" + description + '\'' +
-                ", isFavorite=" + isFavorite +
+                ", isFavourite=" + isFavourite +
                 '}';
     }
 }

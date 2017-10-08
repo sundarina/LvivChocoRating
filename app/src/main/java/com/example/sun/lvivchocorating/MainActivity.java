@@ -83,6 +83,7 @@ public class MainActivity extends Activity {
                 invalidateOptionsMenu();
             }
         };
+
         drawerLayout.setDrawerListener(drawerToggle);
 
         //Включить кнопку Ввверх, чтобы она могла использоваться
@@ -206,7 +207,7 @@ public class MainActivity extends Activity {
         getMenuInflater().inflate(R.menu.menu_main, menu);
         MenuItem menuItem = menu.findItem(R.id.action_share);
         shareActionProvider = (ShareActionProvider) menuItem.getActionProvider();
-        setIntent("I love chocolade");
+        setIntent("I love ChocoRate");
         return super.onCreateOptionsMenu(menu);
     }
 
