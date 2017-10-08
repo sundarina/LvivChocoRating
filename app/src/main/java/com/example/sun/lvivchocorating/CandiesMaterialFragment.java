@@ -20,16 +20,22 @@ import java.util.ArrayList;
 public class CandiesMaterialFragment extends Fragment {
 
     ArrayList<Candy> candyList;
+    ChocoDatabaseHelper databaseHelper;
+    SQLiteDatabase db;
+    Cursor cursor;
 
     public CandiesMaterialFragment() {
         // Required empty public constructor
     }
 
 
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        databaseHelper = new ChocoDatabaseHelper(getActivity().getApplicationContext());
+        // создаем базу данных
+        databaseHelper.create_db();
+
         //использование макета
         RecyclerView candyRecycler = (RecyclerView) inflater.inflate(R.layout.fragment_candies_material, container, false);
         candyList = new ArrayList<>();
@@ -37,38 +43,53 @@ public class CandiesMaterialFragment extends Fragment {
 
 
         try {
-            SQLiteOpenHelper lvivChocoDatabaseHelper = new ChocoDatabaseHelper(getActivity());
-            SQLiteDatabase db = lvivChocoDatabaseHelper.getWritableDatabase();
+            //   SQLiteOpenHelper lvivChocoDatabaseHelper = new ChocoDatabaseHelper(getActivity());
+            //  SQLiteDatabase db = lvivChocoDatabaseHelper.getWritableDatabase();
 
             //Создать курсор для получения
             // из таблицы CANDY столбцов NAME, DESCRIPTION, CATEGORY и IMAGE_RESOURCE_ID тех записей,
             // у которых значение _id равно candyNo
 
-            Cursor cursor = db.query("CANDY", new String[]{"NAME", "DESCRIPTION", "CATEGORY", "IMAGE_RESOURCE_ID" , "RATING"}, null, null, null, null, null);
-            //Курсор содержит одну запись , но и в этом случае переход необходим
+            //         Cursor cursor = db.query("CANDY", new String[]{"NAME", "DESCRIPTION", "CATEGORY", "IMAGE_RESOURCE_ID", "RATING"}, null, null, null, null, null);
+//            //Курсор содержит одну запись , но и в этом случае переход необходим
 
-            if (cursor.moveToFirst()) {
+//            if (cursor.moveToFirst()) {
+//                String nameText = cursor.getString(0);
+//                String description = cursor.getString(1);
+//                String categoryText = cursor.getString(2);
+//                int photoId = cursor.getInt(3);
+//                int ratingNum = cursor.getInt(4);
+//              // candy = new Candy(nameText, description, categoryText, photoId, ratingNum);
+//                candyList.add(new Candy(nameText, description, categoryText, photoId, ratingNum));
+//            }
+//            //Закрыть курсор и базу данных.
+//            cursor.close();
+//            db.close();
+
+
+            // открываем подключение
+ //           db = databaseHelper.open();
+            //получаем данные из бд в виде курсора
+            //  cursor = db.rawQuery("select * from " + ChocoDatabaseHelper.TABLE, null);
+            // определяем, какие столбцы из курсора будут выводиться в ListView
+            // String[] headers = new String[] {ChocoDatabaseHelper.COLUMN_NAME, ChocoDatabaseHelper.COLUMN_YEAR};
+
+            cursor = db.query(ChocoDatabaseHelper.TABLE, new String[]{ChocoDatabaseHelper.COLUMN_NAME, ChocoDatabaseHelper.COLUMN_DESCRIPTION, ChocoDatabaseHelper.COLUMN_CATEGORY, ChocoDatabaseHelper.COLUMN_IMAGE_ID, ChocoDatabaseHelper.COLUMN_RATING}, null, null, null, null, null);
+
+            if(cursor.moveToFirst()){
                 String nameText = cursor.getString(0);
                 String description = cursor.getString(1);
                 String categoryText = cursor.getString(2);
                 int photoId = cursor.getInt(3);
                 int ratingNum = cursor.getInt(4);
-              // candy = new Candy(nameText, description, categoryText, photoId, ratingNum);
                 candyList.add(new Candy(nameText, description, categoryText, photoId, ratingNum));
-
             }
-            //Закрыть курсор и базу данных.
-            cursor.close();
-            db.close();
-        } catch (SQLiteException e) {
 
-            //Если будет выдано исключение SQLiteException,
-            // значит, при работе с базой данных возникли проблемы.
-            // В этом случае объект Toast используется для выдачи сообщения для пользователя
-            // getActivity() вместо ссылки this
+        } catch (SQLiteException e) {
             Toast toast = Toast.makeText(getActivity(), "Database unavailable", Toast.LENGTH_SHORT);
             toast.show();
         }
+
 
         // CaptionedImagesAdapter adapter = new CaptionedImagesAdapter(candyNames, candyImages, candyCategories, candyRatings);
         CaptionedImagesAdapter adapter = new CaptionedImagesAdapter(candyList);
@@ -79,8 +100,8 @@ public class CandiesMaterialFragment extends Fragment {
 
         /**Реализация метода onClick()
          интерфейса Listener запускает
-         активность PizzaDetailActivity,
-         передавая ей идентификатор пиццы, выбранной пользователем */
+         активность CandyDetailActivity,
+         передавая ей идентификатор конфеты, выбранной пользователем */
 
         adapter.setListener(new CaptionedImagesAdapter.Listener() {
             @Override
@@ -91,5 +112,13 @@ public class CandiesMaterialFragment extends Fragment {
             }
         });
         return candyRecycler;
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        // Закрываем подключение и курсор
+        db.close();
+        cursor.close();
     }
 }
