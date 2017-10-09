@@ -1,5 +1,6 @@
 package com.example.sun.lvivchocorating;
 
+import android.content.Context;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -9,7 +10,9 @@ import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
+
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 /**
@@ -30,7 +33,7 @@ import java.util.List;
 
 public class CaptionedImagesAdapter extends RecyclerView.Adapter<CaptionedImagesAdapter.ViewHolder> {
 
-
+    private Context context;
     private Listener listener;
     private ArrayList<Candy> candyArrayList;
 
@@ -72,8 +75,9 @@ public class CaptionedImagesAdapter extends RecyclerView.Adapter<CaptionedImages
         }
     }
 
-    public CaptionedImagesAdapter(List<Candy> candyList) {
+    public CaptionedImagesAdapter(Context context, List<Candy> candyList) {
         this.candyArrayList = (ArrayList<Candy>) candyList;
+        this.context = context;
     }
 
     public void setListener(Listener listener) {
@@ -95,20 +99,17 @@ public class CaptionedImagesAdapter extends RecyclerView.Adapter<CaptionedImages
     public void onBindViewHolder(ViewHolder holder, final int position) {
         //Изображение выводится в графическом представлении ImageView.
         CardView cardView = holder.cardView;
-
-        /////???????????????????
-
-
         ImageView imageView = (ImageView) cardView.findViewById(R.id.info_image);
-        // Drawable drawable = cardView.getResources().getDrawable(imageIds[position]); // deprecated
-        //imageView.setImageDrawable(drawable);
 
-        //  Drawable drawable = ContextCompat.getDrawable(getActivity(), imageIds[position]);
+           int resourceID = context.getResources().getIdentifier(candyArrayList.get(position).getImageId(),"drawable", context.getPackageName());
 
-        imageView.setImageDrawable(cardView.getResources().getDrawable(candyArrayList.get(position).getImageId()));
+        /**setImageDrawable получает картинку drawable = cardView.getResources().getDrawable(imageIds[position])
+         //imageView.setImageDrawable(cardView.getResources().getDrawable(resourceID));*/
+
+        imageView.setImageDrawable(cardView.getResources().getDrawable(resourceID));
+
 
         imageView.setContentDescription(candyArrayList.get(position).getName());
-
 
         TextView textView = (TextView) cardView.findViewById(R.id.info_text);
         textView.setText(candyArrayList.get(position).getName());

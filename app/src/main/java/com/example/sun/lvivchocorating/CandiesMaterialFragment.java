@@ -4,60 +4,72 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
-import android.database.sqlite.SQLiteOpenHelper;
 import android.os.Bundle;
 import android.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.CursorAdapter;
-import android.widget.SimpleCursorAdapter;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import static com.example.sun.lvivchocorating.CandyDetailActivity.EXTRA_CANDYNO;
 
 
 public class CandiesMaterialFragment extends Fragment {
-
-    ArrayList<Candy> candyList;
+    List<Candy> candyList;
     ChocoDatabaseHelper databaseHelper;
     SQLiteDatabase db;
     Cursor cursor;
 
     public CandiesMaterialFragment() {
         // Required empty public constructor
+
     }
 
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
+        //   return inflater.inflate(R.layout.fragment_candies_material, container, false);
         databaseHelper = new ChocoDatabaseHelper(getActivity().getApplicationContext());
 
         //использование макета
         RecyclerView candyRecycler = (RecyclerView) inflater.inflate(R.layout.fragment_candies_material, container, false);
         candyList = new ArrayList<>();
-     //   int candyNo = (Integer) getIntent().getExtras().get(EXTRA_CANDYNO);
+        //   int candyNo = (Integer) getIntent().getExtras().get(EXTRA_CANDYNO);
+
         try {
             databaseHelper.create_db();
             databaseHelper.openDataBase();
-            db= databaseHelper.getdb();
+            db = databaseHelper.getdb();
             cursor = db.query(ChocoDatabaseHelper.TABLE, new String[]{ChocoDatabaseHelper.COLUMN_NAME, ChocoDatabaseHelper.COLUMN_DESCRIPTION, ChocoDatabaseHelper.COLUMN_CATEGORY, ChocoDatabaseHelper.COLUMN_IMAGE_ID, ChocoDatabaseHelper.COLUMN_FAVOURITE, ChocoDatabaseHelper.COLUMN_RATING}, null, null, null, null, null);
+
+            String nameText;
+            String description;
+            String categoryText;
+            String photoId;
+            boolean isFavorite;
+            int ratingNum;
 
             if (cursor.moveToFirst()) {
                 do {
-                    String nameText = cursor.getString(0);
-                    String description = cursor.getString(1);
-                    String categoryText = cursor.getString(2);
-                    int photoId = cursor.getInt(3);
-                    boolean isFavorite = (cursor.getInt(4) == 1);
-                    int ratingNum = cursor.getInt(5);
+                    nameText = cursor.getString(0);
+                    description = cursor.getString(1);
+                    categoryText = cursor.getString(2);
+                    photoId = cursor.getString(3);
+                    isFavorite = (cursor.getInt(4) == 1);
+                    ratingNum = cursor.getInt(5);
                     candyList.add(new Candy(nameText, description, categoryText, photoId, isFavorite, ratingNum));
+
+                    Log.v("IM", photoId+"");
                 } while (cursor.moveToNext());
+
             }
 
         } catch (SQLiteException e) {
@@ -66,7 +78,7 @@ public class CandiesMaterialFragment extends Fragment {
         }
 
 
-        CaptionedImagesAdapter adapter = new CaptionedImagesAdapter(candyList);
+        CaptionedImagesAdapter adapter = new CaptionedImagesAdapter(getActivity().getApplicationContext(), candyList);
         candyRecycler.setAdapter(adapter);
 
         GridLayoutManager gridLayoutManager = new GridLayoutManager(getActivity(), 2);

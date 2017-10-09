@@ -45,7 +45,7 @@ public class ChocoDatabaseHelper extends SQLiteOpenHelper {
         if (dbExist) {
             //ничего не делать , если база уже есть
         } else {
-            this.getReadableDatabase();
+            this.getWritableDatabase();
             try {
                 copyDataBase();
             } catch (IOException e) {
@@ -87,6 +87,18 @@ public class ChocoDatabaseHelper extends SQLiteOpenHelper {
         myDataBase = SQLiteDatabase.openDatabase(myPath, null, SQLiteDatabase.OPEN_READONLY);
 
     }
+
+//    public void insertCandy(SQLiteDatabase db, String name,
+//                            String description, String category, int resourceId, int favourite, int rating) throws SQLException {
+//        ContentValues candyValues = new ContentValues();
+//        candyValues.put("NAME", name);
+//        candyValues.put("DESCRIPTION", description);
+//        candyValues.put("CATEGORY", category);
+//        candyValues.put("IMAGE_RESOURCE_ID", resourceId);
+//        candyValues.put("FAVOURITE", favourite);
+//        candyValues.put("RATING", rating);
+//        db.insert("CANDY", null, candyValues);
+//    }
 
     @Override
     public synchronized void close() {

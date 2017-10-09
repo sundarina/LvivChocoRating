@@ -3,13 +3,13 @@ package com.example.sun.lvivchocorating;
 
 public class Candy {
     private String name;
-    private int imageId;
+    private String imageId;
     private String category;
     private int rating;
     private String description;
     private boolean isFavourite;
 
-    public Candy(String name, String description,  String category, int imageId, boolean isFavourite,  int rating) {
+    public Candy(String name, String description,  String category, String imageId, boolean isFavourite,  int rating) {
         this.name = name;
         this.imageId = imageId;
         this.category = category;
@@ -26,11 +26,11 @@ public class Candy {
         this.name = name;
     }
 
-    public int getImageId() {
+    public String getImageId() {
         return imageId;
     }
 
-    public void setImageId(int imageId) {
+    public void setImageId(String imageId) {
         this.imageId = imageId;
     }
 
