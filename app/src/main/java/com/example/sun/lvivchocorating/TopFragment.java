@@ -41,7 +41,7 @@ public class TopFragment extends Fragment {
 
             //????????????????????????????
             //выборка из бд
-            cursor = db.query("CANDY", new String[]{"_id", "NAME"}, null, null, null, null, null);
+            cursor = db.query("CANDY", new String[]{"_id", "NAME"}, "FAVOURITE = 1", null, null, null, null);
 
             CursorAdapter favouriteAdapter = new SimpleCursorAdapter(layout.getContext(),
                     android.R.layout.simple_list_item_1, cursor,
