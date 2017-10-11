@@ -14,6 +14,7 @@ import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -25,11 +26,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 /**
- * PizzaDetailActivity создается прежде всего для вывода названия
- * и изображения пиццы, выбранной пользователем. Для этого мы извлекаем
+ * DetailActivity создается прежде всего для вывода названия
+ * и изображения продукта, выбранной пользователем. Для этого мы извлекаем
  * идентификатор выбранной пиццы из интента, запустившего активность,
- * и передаем его PizzaDetailActivity из PizzaMaterialFragment,
- * когда пользователь выбирает один из видов пиццы в RecyclerView.
+ * и передаем его DetailActivity из MaterialFragment,
+ * когда пользователь выбирает один из видов  в RecyclerView.
  */
 
 public class CandyDetailActivity extends Activity {
@@ -46,6 +47,7 @@ public class CandyDetailActivity extends Activity {
     CheckBox favourite;
     Context context;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,10 +58,16 @@ public class CandyDetailActivity extends Activity {
         //Включение кнопки Вверх
         getActionBar().setDisplayHomeAsUpEnabled(true);
 
+        String nameText;
+        String descriptionText;
+        String categoryText;
+        String photoId;
+        boolean isFavourite;
+        int ratingNum;
 
         //Получение candy из интента
         try {
-
+            databaseHelper = new ChocoDatabaseHelper(this);
             databaseHelper.create_db();
             databaseHelper.openDataBase();
             db = databaseHelper.getdb();
@@ -70,49 +78,61 @@ public class CandyDetailActivity extends Activity {
 
             Cursor cursor = db.query("CANDY", new String[]{"NAME", "DESCRIPTION", "CATEGORY", "IMAGE_RESOURCE_ID", "FAVOURITE", "RATING"}, "_id = ?", new String[]{Integer.toString(candyNo)}, null, null, null);
             //Курсор содержит одну запись , но и в этом случае переход необходим
+//            if (cursor.moveToFirst()) {
+
+
             if (cursor.moveToFirst()) {
-                String nameText = cursor.getString(0);
-                String descriptionText = cursor.getString(1);
-                String categoryText = cursor.getString(2);
-                String photoId = cursor.getString(3);
-                boolean isFavourite = (cursor.getInt(4) == 1);
-                int ratingNum = cursor.getInt(5);
-
-                //Заполнение названия напитка
-                name = (TextView) findViewById(R.id.candy_text);
-                name.setText(nameText);
-
-                //Заполнение изображения напитка
-               int resourceID = context.getResources().getIdentifier(String.valueOf(photoId),"drawable", context.getPackageName());
-                imageView = (ImageView) findViewById(R.id.candy_image);
-                imageView.setImageDrawable(getResources().getDrawable(resourceID));
-                imageView.setContentDescription(nameText);
-
-                description = (TextView) findViewById(R.id.candy_description);
-                //Заполнение флажка любимого напитка
-                //Заполнение описания напитка
-                description.setText(descriptionText);
-
-                //Заполнение категории
-                category = (TextView) findViewById((R.id.candy_category));
-                category.setText(categoryText);
+             //   do {
+                    nameText = cursor.getString(0);
+                    descriptionText = cursor.getString(1);
+                    categoryText = cursor.getString(2);
+                    photoId = cursor.getString(3);
+                    isFavourite = (cursor.getInt(4) == 1);
+                    ratingNum = cursor.getInt(5);
 
 
-                favourite = (CheckBox) findViewById(R.id.candy_favourite);
-                favourite.setChecked(isFavourite);
+                    //Заполнение названия напитка
+                    name = (TextView) findViewById(R.id.candy_text);
+                    name.setText(nameText);
 
-                //Заполнение рейтингa
-                ratingBar = (RatingBar) findViewById(R.id.candy_ratingBar);
-                ratingBar.setRating(ratingNum);
+                    //Заполнение изображения напитка
+                    int resourceID = this.getResources().getIdentifier(String.valueOf(photoId), "drawable", this.getPackageName());
+                    imageView = (ImageView) findViewById(R.id.candy_image);
+                    imageView.setImageDrawable(getResources().getDrawable(resourceID));
+                    imageView.setContentDescription(nameText);
+
+                    description = (TextView) findViewById(R.id.candy_description);
+                    //Заполнение флажка любимого напитка
+                    //Заполнение описания напитка
+                    description.setText(descriptionText);
+
+                    //Заполнение категории
+                    category = (TextView) findViewById((R.id.candy_category));
+                    category.setText(categoryText);
+
+
+                    favourite = (CheckBox) findViewById(R.id.candy_favourite);
+                    favourite.setChecked(isFavourite);
+
+                    //Заполнение рейтингa
+                    ratingBar = (RatingBar) findViewById(R.id.candy_ratingBar);
+                    ratingBar.setRating(ratingNum);
+
+                    Log.v("IM", photoId + "");
+           //     } while (cursor.moveToNext());
 
             }
             //Закрыть курсор и базу данных.
             cursor.close();
             db.close();
-        } catch (SQLiteException e) {
+        } catch (
+                SQLiteException e)
+
+        {
             Toast toast = Toast.makeText(this, "Database unavailable", Toast.LENGTH_SHORT);
             toast.show();
         }
+
     }
 
 //
