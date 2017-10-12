@@ -89,9 +89,23 @@ public class CaptionedImagesAdapter extends RecyclerView.Adapter<CaptionedImages
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         //какой макет должен истользоваться для ViewHolder
-        CardView cv = (CardView) LayoutInflater.from(parent.getContext()).
+        CardView cardView = (CardView) LayoutInflater.from(parent.getContext()).
                 inflate(R.layout.card_captioned_image, parent, false);
-        return new ViewHolder(cv);
+        final ViewHolder holder = new ViewHolder(cardView);
+
+        cardView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (listener != null) {
+                    final int adapterPosition = holder.getAdapterPosition();
+                    //При щелчке на CardView вызвать метод onClick() интерфейса Listener.
+                   // if (adapterPosition != RecyclerView.NO_POSITION)
+                        listener.onClick(adapterPosition + 1);
+                }
+            }
+        });
+
+        return holder;
     }
 
     //Заполнение заданного представления данными
@@ -101,7 +115,7 @@ public class CaptionedImagesAdapter extends RecyclerView.Adapter<CaptionedImages
         CardView cardView = holder.cardView;
         ImageView imageView = (ImageView) cardView.findViewById(R.id.info_image);
 
-           int resourceID = context.getResources().getIdentifier(candyArrayList.get(position).getImageId(),"drawable", context.getPackageName());
+        int resourceID = context.getResources().getIdentifier(candyArrayList.get(position).getImageId(), "drawable", context.getPackageName());
 
         /**setImageDrawable получает картинку drawable = cardView.getResources().getDrawable(imageIds[position])
          //imageView.setImageDrawable(cardView.getResources().getDrawable(resourceID));*/
@@ -124,17 +138,21 @@ public class CaptionedImagesAdapter extends RecyclerView.Adapter<CaptionedImages
         ratingBar.setRating(candyArrayList.get(position).getRating());
 
 
-        cardView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (listener != null) {
-                    //При щелчке на CardView вызвать метод onClick() интерфейса Listener.
-                    listener.onClick(position);
-                }
-            }
-        });
+//        cardView.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                if (listener != null) {
+//                    //При щелчке на CardView вызвать метод onClick() интерфейса Listener.
+//                    listener.onClick(position);
+//                }
+//            }
+//        });
     }
 
+    @Override
+    public void onAttachedToRecyclerView(RecyclerView recyclerView) {
+        super.onAttachedToRecyclerView(recyclerView);
+    }
 
     //Возвращает количество вариантов в наборе данных
     // Длинна массива  = количеству элементов данных в RecyclerView

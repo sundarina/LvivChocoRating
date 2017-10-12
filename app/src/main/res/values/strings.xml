@@ -21,7 +21,7 @@
         <item>Шоколадно-кремові</item>
     </string-array>
 
-    <string name="favourite">Смакота</string>
+    <string name="favourite">Улюблена</string>
     <string name="rating">Оцінка</string>
     <string name="favorites">Ваша улюблена цукерка:</string>
     <string name="ratingAll">Ваш рейтинг цукерок:</string>
@@ -30,7 +30,7 @@
     <string name="order_activity">Замовлення</string>
 
     <string name="welcome_text">Визнач свою найулюбленішу цукерку прямо тут і прямо зараз!</string>
-    <string name="title_activity_candy_detail">Цукерочка</string>
+    <string name="title_activity_candy_detail">Детально</string>
 
 
 </resources>

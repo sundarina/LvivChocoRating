@@ -42,11 +42,12 @@ public class CandiesMaterialFragment extends Fragment {
         //использование макета
         RecyclerView candyRecycler = (RecyclerView) inflater.inflate(R.layout.fragment_candies_material, container, false);
         candyList = new ArrayList<>();
-        //   int candyNo = (Integer) getIntent().getExtras().get(EXTRA_CANDYNO);
+
+        //int candyNo = (Integer) getIntent().getExtras().get(EXTRA_CANDYNO);
 
         try {
-            databaseHelper.create_db();
-            databaseHelper.openDataBase();
+//            databaseHelper.create_db();
+//            databaseHelper.openDataBase();
             db = databaseHelper.getdb();
             cursor = db.query(ChocoDatabaseHelper.TABLE, new String[]{ChocoDatabaseHelper.COLUMN_NAME, ChocoDatabaseHelper.COLUMN_DESCRIPTION, ChocoDatabaseHelper.COLUMN_CATEGORY, ChocoDatabaseHelper.COLUMN_IMAGE_ID, ChocoDatabaseHelper.COLUMN_FAVOURITE, ChocoDatabaseHelper.COLUMN_RATING}, null, null, null, null, null);
 
@@ -66,8 +67,6 @@ public class CandiesMaterialFragment extends Fragment {
                     isFavorite = (cursor.getInt(4) == 1);
                     ratingNum = cursor.getInt(5);
                     candyList.add(new Candy(nameText, description, categoryText, photoId, isFavorite, ratingNum));
-
-                    Log.v("IM", photoId+"");
                 } while (cursor.moveToNext());
 
             }

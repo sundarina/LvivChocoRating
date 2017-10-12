@@ -45,7 +45,7 @@ public class CandyDetailActivity extends Activity {
     TextView category;
     ImageView imageView;
     CheckBox favourite;
-    Context context;
+
 
 
     @Override
@@ -68,8 +68,8 @@ public class CandyDetailActivity extends Activity {
         //Получение candy из интента
         try {
             databaseHelper = new ChocoDatabaseHelper(this);
-            databaseHelper.create_db();
-            databaseHelper.openDataBase();
+//            databaseHelper.create_db();
+//            databaseHelper.openDataBase();
             db = databaseHelper.getdb();
 
             //Создать курсор для получения
@@ -82,57 +82,51 @@ public class CandyDetailActivity extends Activity {
 
 
             if (cursor.moveToFirst()) {
-             //   do {
-                    nameText = cursor.getString(0);
-                    descriptionText = cursor.getString(1);
-                    categoryText = cursor.getString(2);
-                    photoId = cursor.getString(3);
-                    isFavourite = (cursor.getInt(4) == 1);
-                    ratingNum = cursor.getInt(5);
+                //   do {
+                nameText = cursor.getString(0);
+                descriptionText = cursor.getString(1);
+                categoryText = cursor.getString(2);
+                photoId = cursor.getString(3);
+                isFavourite = (cursor.getInt(4) == 1);
+                ratingNum = cursor.getInt(5);
 
 
-                    //Заполнение названия напитка
-                    name = (TextView) findViewById(R.id.candy_text);
-                    name.setText(nameText);
+                //Заполнение названия напитка
+                name = (TextView) findViewById(R.id.candy_text);
+                name.setText(nameText);
 
-                    //Заполнение изображения напитка
-                    int resourceID = this.getResources().getIdentifier(String.valueOf(photoId), "drawable", this.getPackageName());
-                    imageView = (ImageView) findViewById(R.id.candy_image);
-                    imageView.setImageDrawable(getResources().getDrawable(resourceID));
-                    imageView.setContentDescription(nameText);
+                //Заполнение изображения напитка
+                int resourceID = this.getResources().getIdentifier(String.valueOf(photoId), "drawable", this.getPackageName());
+                imageView = (ImageView) findViewById(R.id.candy_image);
+                imageView.setImageDrawable(getResources().getDrawable(resourceID));
+                imageView.setContentDescription(nameText);
 
-                    description = (TextView) findViewById(R.id.candy_description);
-                    //Заполнение флажка любимого напитка
-                    //Заполнение описания напитка
-                    description.setText(descriptionText);
+                description = (TextView) findViewById(R.id.candy_description);
+                //Заполнение флажка любимого напитка
+                //Заполнение описания напитка
+                description.setText(descriptionText);
 
-                    //Заполнение категории
-                    category = (TextView) findViewById((R.id.candy_category));
-                    category.setText(categoryText);
+                //Заполнение категории
+                category = (TextView) findViewById((R.id.candy_category));
+                category.setText(categoryText);
 
 
-                    favourite = (CheckBox) findViewById(R.id.candy_favourite);
-                    favourite.setChecked(isFavourite);
+                favourite = (CheckBox) findViewById(R.id.candy_favourite);
+                favourite.setChecked(isFavourite);
 
-                    //Заполнение рейтингa
-                    ratingBar = (RatingBar) findViewById(R.id.candy_ratingBar);
-                    ratingBar.setRating(ratingNum);
-
-                    Log.v("IM", photoId + "");
-           //     } while (cursor.moveToNext());
+                //Заполнение рейтингa
+                ratingBar = (RatingBar) findViewById(R.id.candy_ratingBar);
+                ratingBar.setRating(ratingNum);
+                //     } while (cursor.moveToNext());
 
             }
             //Закрыть курсор и базу данных.
             cursor.close();
             db.close();
-        } catch (
-                SQLiteException e)
-
-        {
+        } catch (SQLiteException e) {
             Toast toast = Toast.makeText(this, "Database unavailable", Toast.LENGTH_SHORT);
             toast.show();
         }
-
     }
 
 //

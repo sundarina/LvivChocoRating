@@ -37,6 +37,8 @@ public class ChocoDatabaseHelper extends SQLiteOpenHelper {
         this.myContext = context;
         DB_PATH = context.getFilesDir().getPath() + DB_NAME;
         Log.e("Path 1", DB_PATH);
+        create_db();
+        openDataBase();
     }
 
     void create_db() {
@@ -71,7 +73,7 @@ public class ChocoDatabaseHelper extends SQLiteOpenHelper {
         InputStream myInput = myContext.getAssets().open(DB_NAME);
         String outFileName = DB_PATH + DB_NAME;
         OutputStream myOutput = new FileOutputStream(outFileName);
-        byte[] buffer = new byte[10];
+        byte[] buffer = new byte[1024];
         int length;
         while ((length = myInput.read(buffer)) > 0) {
             myOutput.write(buffer, 0, length);
