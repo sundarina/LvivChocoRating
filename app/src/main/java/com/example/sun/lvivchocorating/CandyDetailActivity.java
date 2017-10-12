@@ -47,7 +47,6 @@ public class CandyDetailActivity extends Activity {
     CheckBox favourite;
 
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -77,9 +76,7 @@ public class CandyDetailActivity extends Activity {
             // у которых значение _id равно candyNo
 
             Cursor cursor = db.query("CANDY", new String[]{"NAME", "DESCRIPTION", "CATEGORY", "IMAGE_RESOURCE_ID", "FAVOURITE", "RATING"}, "_id = ?", new String[]{Integer.toString(candyNo)}, null, null, null);
-            //Курсор содержит одну запись , но и в этом случае переход необходим
-//            if (cursor.moveToFirst()) {
-
+            //Курсор содержит одну запись , но и в этом случае переход необходим if (cursor.moveToFirst()) {}
 
             if (cursor.moveToFirst()) {
                 //   do {
@@ -90,31 +87,23 @@ public class CandyDetailActivity extends Activity {
                 isFavourite = (cursor.getInt(4) == 1);
                 ratingNum = cursor.getInt(5);
 
-
-                //Заполнение названия напитка
                 name = (TextView) findViewById(R.id.candy_text);
                 name.setText(nameText);
 
-                //Заполнение изображения напитка
                 int resourceID = this.getResources().getIdentifier(String.valueOf(photoId), "drawable", this.getPackageName());
                 imageView = (ImageView) findViewById(R.id.candy_image);
                 imageView.setImageDrawable(getResources().getDrawable(resourceID));
                 imageView.setContentDescription(nameText);
 
                 description = (TextView) findViewById(R.id.candy_description);
-                //Заполнение флажка любимого напитка
-                //Заполнение описания напитка
                 description.setText(descriptionText);
 
-                //Заполнение категории
                 category = (TextView) findViewById((R.id.candy_category));
                 category.setText(categoryText);
-
 
                 favourite = (CheckBox) findViewById(R.id.candy_favourite);
                 favourite.setChecked(isFavourite);
 
-                //Заполнение рейтингa
                 ratingBar = (RatingBar) findViewById(R.id.candy_ratingBar);
                 ratingBar.setRating(ratingNum);
                 //     } while (cursor.moveToNext());
@@ -127,79 +116,95 @@ public class CandyDetailActivity extends Activity {
             Toast toast = Toast.makeText(this, "Database unavailable", Toast.LENGTH_SHORT);
             toast.show();
         }
+
+        RatingBar ratingBar = (RatingBar) findViewById(R.id.candy_ratingBar);
+
+        ratingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
+
+            @Override
+            public void onRatingChanged(RatingBar ratingBar, float rating,
+                                        boolean fromUser) {
+
+                ratingBar.setRating(rating);
+                Toast.makeText(CandyDetailActivity.this, "Смачно на: " + String.valueOf(rating) + " зірок",
+                        Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
-//
-//    //Внутренний класс для обновления конфет.
-//    // AsyncTask добавляется в активность в виде внутреннего класса.
-//    private class UpdateCandyTask extends AsyncTask<Integer, Void, Boolean> {
-//        ContentValues candyValues;
-//        int ratingNO = 0;
-//
-//        /**
-//         * Прежде чем запускать код базы данных
-//         * на выполнение, добавить значение флажка и рейтинг
-//         * в объект ContentValues с именем candyValues.
-//         */
-//
-//        protected void onPreExecute() {
-//            CheckBox favourite = (CheckBox) findViewById(R.id.candy_favourite);
-//            RatingBar ratingBar = (RatingBar) findViewById(R.id.candy_ratingBar);
-//
-//            ratingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
-//
-//                @Override
-//                public void onRatingChanged(RatingBar ratingBar, float rating,
-//                                            boolean fromUser) {
-//                    ratingNO = (int) rating;
-//                }
-//            });
-//
-//            candyValues = new ContentValues();
-//            //Значение флажка добавляється в обьект ContentValues  с именем candyValues
-//            candyValues.put("FAVOURITE", favourite.isChecked());
-//            candyValues.put("RATING", ratingNO);
-//        }
-//
-//        /**
-//         * Код базы данных запу-
-//         * скается на выполнение
-//         * в фоновом потоке.
-//         */
-//        protected Boolean doInBackground(Integer... candies) {
-//            int candyNo = candies[0];
-//            SQLiteOpenHelper lvivChocoDatabaseHelper = new ChocoDatabaseHelper(CandyDetailActivity.this);
-////?????????????????????????????????????????????????????
-//            try {
-//                SQLiteDatabase db = lvivChocoDatabaseHelper.getWritableDatabase();
-//                //Обновить столбец Favorite текущим значением флажка
-//                db.update("CANDY", candyValues, "_id = ?", new String[]{Integer.toString(candyNo)});
-//                db.close();
-//                return true;
-//            } catch (SQLiteException e) {
-//                return false;
-//            }
-//        }
-//
-//        /**
-//         * Eсли при выполнении кода базы
-//         * данных возникли проблемы,
-//         * вывести сообщение для пользователя.
-//         */
-//        protected void onPostExecute(Boolean success) {
-//            if (!success) {
-//                Toast toast = Toast.makeText(CandyDetailActivity.this, "Database is unavaliable", Toast.LENGTH_SHORT);
-//                toast.show();
-//            }
-//        }
-//    }
-//
-//    //Обновление базы данных по щелчку на флажке
-//    public void onFavouriteClicked(View view) {
-//        int candyNo = (Integer) getIntent().getExtras().get("candyNo");
-//        new CandyDetailActivity.UpdateCandyTask().execute(candyNo);
-//    }
-//
+
+    //Внутренний класс для обновления конфет.
+    // AsyncTask добавляется в активность в виде внутреннего класса.
+    private class UpdateCandyTask extends AsyncTask<Integer, Void, Boolean> {
+        ContentValues candyValues;
+        int ratingNO = 0;
+
+        /**
+         * Прежде чем запускать код базы данных
+         * на выполнение, добавить значение флажка и рейтинг
+         * в объект ContentValues с именем candyValues.
+         */
+
+        protected void onPreExecute() {
+            CheckBox favourite = (CheckBox) findViewById(R.id.candy_favourite);
+            RatingBar ratingBar = (RatingBar) findViewById(R.id.candy_ratingBar);
+
+            ratingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
+
+                @Override
+                public void onRatingChanged(RatingBar ratingBar, float rating,
+                                            boolean fromUser) {
+                    ratingNO = (int) rating;
+
+                }
+            });
+
+            candyValues = new ContentValues();
+            //Значение флажка добавляється в обьект ContentValues  с именем candyValues
+            candyValues.put("FAVOURITE", favourite.isChecked());
+            candyValues.put("RATING", ratingNO);
+        }
+
+        /**
+         * Код базы данных запу-
+         * скается на выполнение
+         * в фоновом потоке.
+         */
+        protected Boolean doInBackground(Integer... candies) {
+            SQLiteDatabase db;
+            int candyNo = candies[0];
+            SQLiteOpenHelper chocoDatabaseHelper = new ChocoDatabaseHelper(CandyDetailActivity.this);
+
+            try {
+
+                db = chocoDatabaseHelper.getWritableDatabase();
+                //Обновить столбец Favorite текущим значением флажка
+                db.update("CANDY", candyValues, "_id = ?", new String[]{Integer.toString(candyNo)});
+                db.close();
+                return true;
+            } catch (SQLiteException e) {
+                return false;
+            }
+        }
+
+        /**
+         * Eсли при выполнении кода базы
+         * данных возникли проблемы,
+         * вывести сообщение для пользователя.
+         */
+        protected void onPostExecute(Boolean success) {
+            if (!success) {
+                Toast toast = Toast.makeText(CandyDetailActivity.this, "Database is unavaliable", Toast.LENGTH_SHORT);
+                toast.show();
+            }
+        }
+    }
+
+    //Обновление базы данных по щелчку на флажке
+    public void onFavouriteClicked(View view) {
+        int candyNo = (Integer) getIntent().getExtras().get("candyNo");
+        new CandyDetailActivity.UpdateCandyTask().execute(candyNo);
+    }
 
 
     @Override

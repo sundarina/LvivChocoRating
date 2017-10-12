@@ -12,6 +12,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RatingBar;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -77,6 +78,8 @@ public class CandiesMaterialFragment extends Fragment {
         }
 
 
+
+
         CaptionedImagesAdapter adapter = new CaptionedImagesAdapter(getActivity().getApplicationContext(), candyList);
         candyRecycler.setAdapter(adapter);
 
@@ -96,6 +99,8 @@ public class CandiesMaterialFragment extends Fragment {
                 getActivity().startActivity(intent);
             }
         });
+
+
         return candyRecycler;
     }
 

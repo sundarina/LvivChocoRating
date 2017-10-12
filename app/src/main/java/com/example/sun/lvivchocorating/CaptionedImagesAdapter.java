@@ -136,7 +136,7 @@ public class CaptionedImagesAdapter extends RecyclerView.Adapter<CaptionedImages
 
         RatingBar ratingBar = (RatingBar) cardView.findViewById(R.id.info_ratingBar);
         ratingBar.setRating(candyArrayList.get(position).getRating());
-
+        ratingBar.isIndicator();
 
 //        cardView.setOnClickListener(new View.OnClickListener() {
 //            @Override
@@ -161,3 +161,5 @@ public class CaptionedImagesAdapter extends RecyclerView.Adapter<CaptionedImages
         return candyArrayList.size();
     }
 }
+
+

@@ -21,7 +21,7 @@
         <item>Шоколадно-кремові</item>
     </string-array>
 
-    <string name="favourite">Улюблена</string>
+    <string name="favourite">Улюблена цукерка</string>
     <string name="rating">Оцінка</string>
     <string name="favorites">Ваша улюблена цукерка:</string>
     <string name="ratingAll">Ваш рейтинг цукерок:</string>
