@@ -52,7 +52,7 @@ public class MainActivity extends Activity {
         //Получить ссылку на DrawerLayout
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         //Для заполненияListView используется класс ArrayAdapter.
-        drawerList.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_activated_1, titles));
+        drawerList.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_list_item_activated_1, titles));
         //Добавить новый экземпляр OnItemClickListener к списковому представлению выдвижной панели
         drawerList.setOnItemClickListener(new DrawerItemClickListener());
 
@@ -64,7 +64,7 @@ public class MainActivity extends Activity {
             currentPosition = savedInstanceState.getInt("position");
             setActionBarTitle(currentPosition);
         } else {
-            //Если активность только что создана, использовать TopFragment.
+            //Если активность только что создана, использовать RatingFragment.
             selectItem(0);
         }
 
@@ -104,11 +104,13 @@ public class MainActivity extends Activity {
                         // связанный с активностью, и присвоить currentPosition
                         // соответствующее значение.
 
-                        if (fragment instanceof TopFragment) {
+
+
+                        if (fragment instanceof CandiesMaterialFragment) {
                             currentPosition = 0;
                         }
 
-                        if (fragment instanceof CandiesMaterialFragment) {
+                        if (fragment instanceof RatingFragment) {
                             currentPosition = 1;
                         }
 
@@ -132,14 +134,15 @@ public class MainActivity extends Activity {
         Fragment fragment;
         switch (position) {
             case 1:
-                fragment = new CandiesMaterialFragment();
+                fragment = new RatingFragment();
                 break;
-            case 2:
+            case 3:
                 fragment = new ContactsFragment();
                 break;
             default:
-                fragment = new TopFragment();
+                fragment = new CandiesMaterialFragment();
         }
+
 
         FragmentTransaction ft = getFragmentManager().beginTransaction();
         ft.replace(R.id.content_frame, fragment, "visible_fragment");

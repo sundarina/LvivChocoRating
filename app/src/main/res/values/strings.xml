@@ -1,13 +1,14 @@
 <resources>
-    <string name="app_name">ChocoRate</string>
+    <string name="app_name"> CHOCORATE </string>
     <string name="action_settings">Налаштування</string>
     <string name="action_share">Поділитися</string>
-    <string name="title_top">Wellcome!</string>
+  <string name="rating_wellome">Рейтинг цукерок</string>
     <string name="open_drawer">Open drawer</string>
     <string name="close_drawer">Close drawer</string>
     <string-array name="titles">
         <item>Головна</item>
-        <item>Цукерки</item>
+        <item>Рейтинг</item>
+        <item>Шаблон замовлення</item>
         <item>Контакти</item>
     </string-array>
 
