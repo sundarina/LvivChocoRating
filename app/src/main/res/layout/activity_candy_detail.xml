@@ -1,4 +1,5 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent">
@@ -14,6 +15,13 @@
         android:paddingRight="@dimen/activity_horizontal_margin"
         android:paddingTop="@dimen/activity_vertical_margin"
         tools:context="com.example.sun.lvivchocorating.CandyDetailActivity">
+
+
+        <ImageView
+            android:id="@+id/candy_image"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:adjustViewBounds="true" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -50,11 +58,21 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="left"
+                    android:button="@drawable/checkbox_selector"
                     android:gravity="center"
                     android:onClick="onFavouriteClicked"
                     android:textAlignment="center" />
             </LinearLayout>
         </LinearLayout>
+
+
+
+
+        <TextView
+            android:id="@+id/candy_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge" />
 
         <TextView
             android:id="@+id/candy_category"
@@ -64,30 +82,21 @@
             android:textColor="?android:attr/textColorHint"
             android:textStyle="italic" />
 
-        <TextView
-            android:id="@+id/candy_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceLarge" />
+
 
         <TextView
             android:id="@+id/candy_description"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 
-        <ImageView
-            android:id="@+id/candy_image"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:adjustViewBounds="true" />
-
 
         <RatingBar
             android:id="@+id/candy_ratingBar"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:numStars="10"
-            android:stepSize="1" />
+            android:layout_height="match_parent"
+            android:numStars="5"
+            android:stepSize="1"
+            android:onClick="onRatingCliked"/>
 
 
     </LinearLayout>

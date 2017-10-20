@@ -47,9 +47,9 @@ public class CandiesMaterialFragment extends Fragment {
         //int candyNo = (Integer) getIntent().getExtras().get(EXTRA_CANDYNO);
 
         try {
-           databaseHelper.create_db();
-         db =   databaseHelper.open();
-     //       db = databaseHelper.getdb();
+       //    databaseHelper.create_db();
+      //   db =   databaseHelper.open();
+            db = databaseHelper.getdb();
             cursor = db.query(ChocoDatabaseHelper.TABLE, new String[]{ChocoDatabaseHelper.COLUMN_NAME, ChocoDatabaseHelper.COLUMN_DESCRIPTION, ChocoDatabaseHelper.COLUMN_CATEGORY, ChocoDatabaseHelper.COLUMN_IMAGE_ID, ChocoDatabaseHelper.COLUMN_FAVOURITE, ChocoDatabaseHelper.COLUMN_RATING}, null, null, null, null, null);
 
             String nameText;

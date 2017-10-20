@@ -14,6 +14,7 @@ import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -37,8 +38,7 @@ public class CandyDetailActivity extends Activity {
     ShareActionProvider shareActionProvider;
     //Константа будет использоваться для передачи идентификатора пиццы в дополнительной информации интента.
     public static final String EXTRA_CANDYNO = "candyNo";
-    ChocoDatabaseHelper databaseHelper;
-    SQLiteDatabase db;
+
     TextView name;
     TextView description;
     RatingBar ratingBar;
@@ -66,9 +66,15 @@ public class CandyDetailActivity extends Activity {
 
         //Получение candy из интента
         try {
+
+            ChocoDatabaseHelper databaseHelper;
+            SQLiteDatabase db;
+
             databaseHelper = new ChocoDatabaseHelper(this);
-//            databaseHelper.create_db();
-//            databaseHelper.openDataBase();
+
+//        db =     databaseHelper.open();
+//
+
             db = databaseHelper.getdb();
 
             //Создать курсор для получения
@@ -117,19 +123,39 @@ public class CandyDetailActivity extends Activity {
             toast.show();
         }
 
-        RatingBar ratingBar = (RatingBar) findViewById(R.id.candy_ratingBar);
+//        RatingBar ratingBar = (RatingBar) findViewById(R.id.candy_ratingBar);
 
-        ratingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
+//        ratingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
+//
+//            @Override
+//            public void onRatingChanged(RatingBar ratingBar, float rating,
+//                                        boolean fromUser) {
+//
+//                ratingBar.setRating(rating);
+//                Toast.makeText(CandyDetailActivity.this, "Смачно на: " + String.valueOf(rating) + " зірок",
+//                        Toast.LENGTH_SHORT).show();
+//            }
+//        });
+    }
 
-            @Override
-            public void onRatingChanged(RatingBar ratingBar, float rating,
-                                        boolean fromUser) {
 
-                ratingBar.setRating(rating);
-                Toast.makeText(CandyDetailActivity.this, "Смачно на: " + String.valueOf(rating) + " зірок",
-                        Toast.LENGTH_SHORT).show();
-            }
-        });
+    public void onRatingCliked(View view) {
+        int candyNo = (Integer) getIntent().getExtras().get("candyNo");
+        new CandyDetailActivity.UpdateCandyTask().execute(candyNo);
+
+    }
+
+    //Обновление базы данных по щелчку на флажке
+    public void onFavouriteClicked(View view) {
+        int candyNo = (Integer) getIntent().getExtras().get("candyNo");
+        new CandyDetailActivity.UpdateCandyTask().execute(candyNo);
+        if (favourite.isChecked()) {
+            Toast.makeText(CandyDetailActivity.this, "Ви вподобали цукерку" + name.getText() + " зірок",
+                    Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(CandyDetailActivity.this, "Вже не улюблена",
+                    Toast.LENGTH_SHORT).show();
+        }
     }
 
 
@@ -155,9 +181,11 @@ public class CandyDetailActivity extends Activity {
                 public void onRatingChanged(RatingBar ratingBar, float rating,
                                             boolean fromUser) {
                     ratingNO = (int) rating;
-
+                    Toast.makeText(CandyDetailActivity.this, "Смачно на: " + String.valueOf(rating) + " зірок",
+                            Toast.LENGTH_SHORT).show();
                 }
             });
+
 
             candyValues = new ContentValues();
             //Значение флажка добавляється в обьект ContentValues  с именем candyValues
@@ -171,13 +199,13 @@ public class CandyDetailActivity extends Activity {
          * в фоновом потоке.
          */
         protected Boolean doInBackground(Integer... candies) {
-            SQLiteDatabase db;
+
             int candyNo = candies[0];
-            SQLiteOpenHelper chocoDatabaseHelper = new ChocoDatabaseHelper(CandyDetailActivity.this);
 
+            ChocoDatabaseHelper chocoDatabaseHelper = new ChocoDatabaseHelper(CandyDetailActivity.this);
             try {
+                SQLiteDatabase db = chocoDatabaseHelper.getdb();
 
-                db = chocoDatabaseHelper.getWritableDatabase();
                 //Обновить столбец Favorite текущим значением флажка
                 db.update("CANDY", candyValues, "_id = ?", new String[]{Integer.toString(candyNo)});
                 db.close();
@@ -198,12 +226,6 @@ public class CandyDetailActivity extends Activity {
                 toast.show();
             }
         }
-    }
-
-    //Обновление базы данных по щелчку на флажке
-    public void onFavouriteClicked(View view) {
-        int candyNo = (Integer) getIntent().getExtras().get("candyNo");
-        new CandyDetailActivity.UpdateCandyTask().execute(candyNo);
     }
 
 

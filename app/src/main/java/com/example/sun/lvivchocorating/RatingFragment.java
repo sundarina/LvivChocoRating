@@ -17,13 +17,13 @@ import android.widget.RelativeLayout;
 import android.widget.SimpleCursorAdapter;
 import android.widget.Toast;
 
-public class TopFragment extends Fragment {
+public class RatingFragment extends Fragment {
 
     Cursor cursor;
     SQLiteDatabase db;
     ChocoDatabaseHelper chocoDatabaseHelper;
 
-    public TopFragment() {
+    public RatingFragment() {
         // Required empty public constructor
     }
 
@@ -31,12 +31,13 @@ public class TopFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        RelativeLayout layout = (RelativeLayout) inflater.inflate(R.layout.fragment_top, container, false);
+        RelativeLayout layout = (RelativeLayout) inflater.inflate(R.layout.fragment_rating, container, false);
         ListView listFavourites = (ListView) layout.findViewById(R.id.list_favourites);
         try {
             chocoDatabaseHelper = new ChocoDatabaseHelper(getActivity().getApplicationContext());
-//            chocoDatabaseHelper.create_db();
-//            chocoDatabaseHelper.openDataBase();
+    //        chocoDatabaseHelper.create_db();
+//         db =    chocoDatabaseHelper.open();
+
             //получили бд
             db = chocoDatabaseHelper.getdb();
             //выборка из бд

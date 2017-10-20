@@ -2,6 +2,7 @@ package com.example.sun.lvivchocorating;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.ContextWrapper;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
@@ -10,6 +11,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -19,6 +21,7 @@ import java.io.OutputStream;
 public class ChocoDatabaseHelper extends SQLiteOpenHelper {
 
     private static String DB_PATH = null; // полный путь к базе данных
+    //  private static String DB_PATH = "/data/data/com.example.sun.lvivchocorating/databases/"; // полный путь к базе данных
     private static String DB_NAME = "lvivchoco.db";
     private static final int SCHEMA = 1; // версия базы данных
     static final String TABLE = "CANDY"; // название таблицы в бд
@@ -39,6 +42,7 @@ public class ChocoDatabaseHelper extends SQLiteOpenHelper {
         Log.e("Path 1", DB_PATH);
         create_db();
         openDataBase();
+
     }
 
     void create_db() {
@@ -47,7 +51,7 @@ public class ChocoDatabaseHelper extends SQLiteOpenHelper {
         if (dbExist) {
             //ничего не делать , если база уже есть
         } else {
-            this.getWritableDatabase();
+            this.getReadableDatabase();
             try {
                 copyDataBase();
             } catch (IOException e) {
@@ -56,28 +60,33 @@ public class ChocoDatabaseHelper extends SQLiteOpenHelper {
         }
     }
 
+
     private boolean checkDataBase() {
         SQLiteDatabase checkDB = null;
         try {
             String myPath = DB_PATH + DB_NAME;
-            checkDB = SQLiteDatabase.openDatabase(myPath, null, SQLiteDatabase.OPEN_READONLY);
+            //String myPath = DB_PATH;
+            checkDB = SQLiteDatabase.openDatabase(myPath, null, SQLiteDatabase.OPEN_READWRITE|SQLiteDatabase.NO_LOCALIZED_COLLATORS);
         } catch (SQLiteException e) {
         }
         if (checkDB != null) {
             checkDB.close();
         }
-        return checkDB != null ? true : false;
+        return checkDB != null;
     }
 
     private void copyDataBase() throws IOException {
+
         InputStream myInput = myContext.getAssets().open(DB_NAME);
         String outFileName = DB_PATH + DB_NAME;
+      //  String outFileName = DB_PATH;
         OutputStream myOutput = new FileOutputStream(outFileName);
         byte[] buffer = new byte[1024];
         int length;
         while ((length = myInput.read(buffer)) > 0) {
             myOutput.write(buffer, 0, length);
         }
+
         myOutput.flush();
         myOutput.close();
         myInput.close();
@@ -86,11 +95,17 @@ public class ChocoDatabaseHelper extends SQLiteOpenHelper {
 
     public void openDataBase() throws SQLException {
         String myPath = DB_PATH + DB_NAME;
-        myDataBase = SQLiteDatabase.openDatabase(myPath, null, SQLiteDatabase.OPEN_READONLY);
+      // String myPath = DB_PATH;
+        myDataBase = SQLiteDatabase.openDatabase(myPath, null, SQLiteDatabase.OPEN_READWRITE|SQLiteDatabase.NO_LOCALIZED_COLLATORS);
 
     }
 
-//    public void insertCandy(SQLiteDatabase db, String name,
+//    public SQLiteDatabase open() throws SQLException {
+//        String myPath = DB_PATH + DB_NAME;
+//        return SQLiteDatabase.openDatabase(myPath, null, SQLiteDatabase.OPEN_READWRITE);
+//    }
+
+    //    public void insertCandy(SQLiteDatabase db, String name,
 //                            String description, String category, int resourceId, int favourite, int rating) throws SQLException {
 //        ContentValues candyValues = new ContentValues();
 //        candyValues.put("NAME", name);
@@ -101,7 +116,7 @@ public class ChocoDatabaseHelper extends SQLiteOpenHelper {
 //        candyValues.put("RATING", rating);
 //        db.insert("CANDY", null, candyValues);
 //    }
-
+//
     @Override
     public synchronized void close() {
         if (myDataBase != null)
@@ -136,7 +151,6 @@ public class ChocoDatabaseHelper extends SQLiteOpenHelper {
 //    public Cursor query(String table, String[] columns, String selection, String[] selectionArgs, String groupBy, String having, String orderBy) {
 //        return myDataBase.query("CANDY", null, null, null, null, null, null);
 //    }
-
 
     public SQLiteDatabase getdb() {
         return myDataBase;
