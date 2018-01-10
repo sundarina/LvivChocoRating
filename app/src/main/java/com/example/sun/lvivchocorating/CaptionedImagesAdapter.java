@@ -39,11 +39,11 @@ public class CaptionedImagesAdapter extends RecyclerView.Adapter<CaptionedImages
 
     /**
      * При щелчке на любой из карточек в RecyclerView будет вызываться метод
-     * onClick() интерфейса Listener. Затем в PizzaMaterialFragment добавляется
+     * onClick() интерфейса ListenerFavourite. Затем в PizzaMaterialFragment добавляется
      * код реализации интерфейса; это позволит фрагменту отреагировать на щелчки
      * и запустить активность
      * 1 Пользователь щелкает на карточке в RecyclerView.
-     * 2 Вызывается метод onClick() интерфейса Listener.
+     * 2 Вызывается метод onClick() интерфейса ListenerFavourite.
      * 3  Mетод onClick() реализован в PizzaMaterialFragment.
      * Код фрагмента запускает PizzaDetailActivity.
      */
@@ -52,21 +52,20 @@ public class CaptionedImagesAdapter extends RecyclerView.Adapter<CaptionedImages
         void onClick(int position);
     }
 
+
+    /**
+     * ViewHolder предоставляет ссылку на представление (или
+     * представления) каждого варианта данных в RecyclerView; это
+     * своего рода «ячейка» для размещения отображаемых данных
+     * В нашем компоненте RecyclerView
+     * должны отображаться карточки, поэ-
+     * тому мы указываем, что ViewHolder
+     * содержит представления CardView.
+     * Если вы захотите отображать
+     * в  RecyclerView данные другого типа,
+     * определите их здесь.
+     */
     public static class ViewHolder extends RecyclerView.ViewHolder {
-
-        /**
-         * ViewHolder предоставляет ссылку на представление (или
-         * представления) каждого варианта данных в RecyclerView; это
-         * своего рода «ячейка» для размещения отображаемых данных
-         * В нашем компоненте RecyclerView
-         * должны отображаться карточки, поэ-
-         * тому мы указываем, что ViewHolder
-         * содержит представления CardView.
-         * Если вы захотите отображать
-         * в  RecyclerView данные другого типа,
-         * определите их здесь.
-         */
-
         private CardView cardView;
 
         public ViewHolder(CardView view) {
@@ -98,9 +97,9 @@ public class CaptionedImagesAdapter extends RecyclerView.Adapter<CaptionedImages
             public void onClick(View view) {
                 if (listener != null) {
                     final int adapterPosition = holder.getAdapterPosition();
-                    //При щелчке на CardView вызвать метод onClick() интерфейса Listener.
+                    //При щелчке на CardView вызвать метод onClick() интерфейса ListenerFavourite.
                    // if (adapterPosition != RecyclerView.NO_POSITION)
-                        listener.onClick(adapterPosition + 1);
+                        listener.onClick(adapterPosition+1);
                 }
             }
         });
@@ -113,6 +112,8 @@ public class CaptionedImagesAdapter extends RecyclerView.Adapter<CaptionedImages
     public void onBindViewHolder(ViewHolder holder, final int position) {
         //Изображение выводится в графическом представлении ImageView.
         CardView cardView = holder.cardView;
+
+
         ImageView imageView = (ImageView) cardView.findViewById(R.id.info_image);
 
         int resourceID = context.getResources().getIdentifier(candyArrayList.get(position).getImageId(), "drawable", context.getPackageName());
@@ -138,15 +139,15 @@ public class CaptionedImagesAdapter extends RecyclerView.Adapter<CaptionedImages
         ratingBar.setRating(candyArrayList.get(position).getRating());
         ratingBar.isIndicator();
 
-//        cardView.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                if (listener != null) {
-//                    //При щелчке на CardView вызвать метод onClick() интерфейса Listener.
-//                    listener.onClick(position);
-//                }
-//            }
-//        });
+        cardView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (listener != null) {
+                    //При щелчке на CardView вызвать метод onClick() интерфейса ListenerFavourite.
+                    listener.onClick(position+1);
+                }
+            }
+        });
     }
 
     @Override

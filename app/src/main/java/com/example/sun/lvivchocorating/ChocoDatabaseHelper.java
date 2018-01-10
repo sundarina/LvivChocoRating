@@ -66,7 +66,8 @@ public class ChocoDatabaseHelper extends SQLiteOpenHelper {
         try {
             String myPath = DB_PATH + DB_NAME;
             //String myPath = DB_PATH;
-            checkDB = SQLiteDatabase.openDatabase(myPath, null, SQLiteDatabase.OPEN_READWRITE|SQLiteDatabase.NO_LOCALIZED_COLLATORS);
+            //checkDB = SQLiteDatabase.openDatabase(myPath, null, SQLiteDatabase.OPEN_READWRITE|SQLiteDatabase.NO_LOCALIZED_COLLATORS);
+            checkDB = SQLiteDatabase.openDatabase(myPath, null, SQLiteDatabase.NO_LOCALIZED_COLLATORS);
         } catch (SQLiteException e) {
         }
         if (checkDB != null) {
@@ -96,7 +97,8 @@ public class ChocoDatabaseHelper extends SQLiteOpenHelper {
     public void openDataBase() throws SQLException {
         String myPath = DB_PATH + DB_NAME;
       // String myPath = DB_PATH;
-        myDataBase = SQLiteDatabase.openDatabase(myPath, null, SQLiteDatabase.OPEN_READWRITE|SQLiteDatabase.NO_LOCALIZED_COLLATORS);
+        //myDataBase = SQLiteDatabase.openDatabase(myPath, null, SQLiteDatabase.OPEN_READWRITE|SQLiteDatabase.NO_LOCALIZED_COLLATORS);
+        myDataBase = SQLiteDatabase.openDatabase(myPath, null, SQLiteDatabase.NO_LOCALIZED_COLLATORS);
 
     }
 

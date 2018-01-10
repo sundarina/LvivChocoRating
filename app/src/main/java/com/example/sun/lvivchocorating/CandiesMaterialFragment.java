@@ -8,11 +8,9 @@ import android.os.Bundle;
 import android.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.RatingBar;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -47,8 +45,7 @@ public class CandiesMaterialFragment extends Fragment {
         //int candyNo = (Integer) getIntent().getExtras().get(EXTRA_CANDYNO);
 
         try {
-       //    databaseHelper.create_db();
-      //   db =   databaseHelper.open();
+
             db = databaseHelper.getdb();
             cursor = db.query(ChocoDatabaseHelper.TABLE, new String[]{ChocoDatabaseHelper.COLUMN_NAME, ChocoDatabaseHelper.COLUMN_DESCRIPTION, ChocoDatabaseHelper.COLUMN_CATEGORY, ChocoDatabaseHelper.COLUMN_IMAGE_ID, ChocoDatabaseHelper.COLUMN_FAVOURITE, ChocoDatabaseHelper.COLUMN_RATING}, null, null, null, null, null);
 
@@ -87,7 +84,7 @@ public class CandiesMaterialFragment extends Fragment {
         candyRecycler.setLayoutManager(gridLayoutManager);
 
         /**Реализация метода onClick()
-         интерфейса Listener запускает
+         интерфейса ListenerFavourite запускает
          активность CandyDetailActivity,
          передавая ей идентификатор конфеты, выбранной пользователем */
 

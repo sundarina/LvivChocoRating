@@ -105,17 +105,24 @@ public class MainActivity extends Activity {
                         // соответствующее значение.
 
 
-
                         if (fragment instanceof CandiesMaterialFragment) {
                             currentPosition = 0;
                         }
 
-                        if (fragment instanceof RatingFragment) {
+                        if (fragment instanceof FavouriteFragment) {
                             currentPosition = 1;
                         }
 
-                        if (fragment instanceof ContactsFragment) {
+                        if (fragment instanceof RatingFragment) {
                             currentPosition = 2;
+                        }
+
+                        if (fragment instanceof OrderFragment) {
+                            currentPosition = 3;
+                        }
+
+                        if (fragment instanceof ContactsFragment) {
+                            currentPosition = 4;
                         }
 
                         setActionBarTitle(currentPosition);
@@ -132,11 +139,18 @@ public class MainActivity extends Activity {
         //Обновить currentPosition при выборе варианта.
         currentPosition = position;
         Fragment fragment;
+
         switch (position) {
             case 1:
+                fragment = new FavouriteFragment();
+                break;
+            case 2:
                 fragment = new RatingFragment();
                 break;
             case 3:
+                fragment = new OrderFragment();
+                break;
+            case 4:
                 fragment = new ContactsFragment();
                 break;
             default:
@@ -227,6 +241,7 @@ public class MainActivity extends Activity {
 
         switch (item.getItemId()) {
             case R.id.action_create_order:
+               // Intent intent = new Intent(this, OrderActivity.class);
                 Intent intent = new Intent(this, OrderActivity.class);
                 startActivity(intent);
                 return true;

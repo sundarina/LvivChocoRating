@@ -35,8 +35,7 @@ public class RatingFragment extends Fragment {
         ListView listFavourites = (ListView) layout.findViewById(R.id.list_favourites);
         try {
             chocoDatabaseHelper = new ChocoDatabaseHelper(getActivity().getApplicationContext());
-    //        chocoDatabaseHelper.create_db();
-//         db =    chocoDatabaseHelper.open();
+
 
             //получили бд
             db = chocoDatabaseHelper.getdb();

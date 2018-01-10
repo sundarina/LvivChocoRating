@@ -12,6 +12,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.graphics.Typeface;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
@@ -45,6 +46,10 @@ public class CandyDetailActivity extends Activity {
     TextView category;
     ImageView imageView;
     CheckBox favourite;
+    Context context;
+
+//    Typeface robotoMedium = Typeface.createFromAsset(context.getAssets(), "font/Roboto-Medium.ttf");
+//    Typeface robotoRegular = Typeface.createFromAsset(context.getAssets(), "font/Roboto-Regular.ttf");
 
 
     @Override
@@ -72,9 +77,6 @@ public class CandyDetailActivity extends Activity {
 
             databaseHelper = new ChocoDatabaseHelper(this);
 
-//        db =     databaseHelper.open();
-//
-
             db = databaseHelper.getdb();
 
             //Создать курсор для получения
@@ -95,6 +97,7 @@ public class CandyDetailActivity extends Activity {
 
                 name = (TextView) findViewById(R.id.candy_text);
                 name.setText(nameText);
+              //  name.setTypeface(robotoMedium);
 
                 int resourceID = this.getResources().getIdentifier(String.valueOf(photoId), "drawable", this.getPackageName());
                 imageView = (ImageView) findViewById(R.id.candy_image);
