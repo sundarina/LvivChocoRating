@@ -141,32 +141,30 @@ public class FavouriteFragment extends Fragment {
         return layout;
     }
 
-    //Метод  вызываеться при возвращении пользователя к ТОп
-    @Override
-    public void onResume() {
-        super.onResume();
-
-        //  new RestartTask().execute(favoritesCursor);
-        try {
-            SQLiteOpenHelper chocoDatabaseHelper = new ChocoDatabaseHelper(getActivity().getApplicationContext());
-            db = chocoDatabaseHelper.getReadableDatabase();
-            Cursor newCursor = db.query("CANDY", new String[]{"_id", "NAME"}, "FAVORITE = 1",
-                    null, null, null, null);
-
-            ListView listFavorite = (ListView) getView().findViewById(R.id.list_favour);
-            //Получить адаптер спискового представления
-            CursorAdapter adapter = (CursorAdapter) listFavorite.getAdapter();
-            //Заменить курсор, используемый адаптером, на новый
-            adapter.changeCursor(newCursor);
-            cursor = newCursor;
-
-        } catch (SQLiteException e) {
-            Toast toast = Toast.makeText(getActivity(), "Database is unavalieble", Toast.LENGTH_SHORT);
-            toast.show();
-        }
-    }
-
-
+//    //Метод  вызываеться при возвращении пользователя к ТОп
+//    @Override
+//    public void onResume() {
+//        super.onResume();
+//
+//        //  new RestartTask().execute(favoritesCursor);
+//        try {
+//            SQLiteOpenHelper chocoDatabaseHelper = new ChocoDatabaseHelper(getActivity().getApplicationContext());
+//            db = chocoDatabaseHelper.getReadableDatabase();
+//            Cursor newCursor = db.query("CANDY", new String[]{"_id", "NAME"}, "FAVORITE = 1",
+//                    null, null, null, null);
+//
+//            ListView listFavorite = (ListView) getView().findViewById(R.id.list_favour);
+//            //Получить адаптер спискового представления
+//            CursorAdapter adapter = (CursorAdapter) listFavorite.getAdapter();
+//            //Заменить курсор, используемый адаптером, на новый
+//            adapter.changeCursor(newCursor);
+//            cursor = newCursor;
+//
+//        } catch (SQLiteException e) {
+//            Toast toast = Toast.makeText(getActivity(), "Database is unavalieble 2", Toast.LENGTH_SHORT);
+//            toast.show();
+//        }
+//    }
 
 
     //Закрытие курсора и базы данных в методе onDestroy()

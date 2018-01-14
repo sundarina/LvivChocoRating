@@ -35,14 +35,13 @@ public class CandiesMaterialFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        //   return inflater.inflate(R.layout.fragment_candies_material, container, false);
         databaseHelper = new ChocoDatabaseHelper(getActivity().getApplicationContext());
 
         //использование макета
         RecyclerView candyRecycler = (RecyclerView) inflater.inflate(R.layout.fragment_candies_material, container, false);
         candyList = new ArrayList<>();
 
-        //int candyNo = (Integer) getIntent().getExtras().get(EXTRA_CANDYNO);
+       // int candyNo = (Integer) getIntent().getExtras().get(EXTRA_CANDYNO);
 
         try {
 
@@ -73,8 +72,6 @@ public class CandiesMaterialFragment extends Fragment {
             Toast toast = Toast.makeText(getActivity(), "Database is unavailable", Toast.LENGTH_SHORT);
             toast.show();
         }
-
-
 
 
         CaptionedImagesAdapter adapter = new CaptionedImagesAdapter(getActivity().getApplicationContext(), candyList);

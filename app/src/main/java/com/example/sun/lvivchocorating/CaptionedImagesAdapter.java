@@ -1,6 +1,8 @@
 package com.example.sun.lvivchocorating;
 
 import android.content.Context;
+import android.graphics.drawable.Drawable;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -65,7 +67,7 @@ public class CaptionedImagesAdapter extends RecyclerView.Adapter<CaptionedImages
      * в  RecyclerView данные другого типа,
      * определите их здесь.
      */
-    public static class ViewHolder extends RecyclerView.ViewHolder {
+     static class ViewHolder extends RecyclerView.ViewHolder {
         private CardView cardView;
 
         public ViewHolder(CardView view) {
@@ -74,22 +76,23 @@ public class CaptionedImagesAdapter extends RecyclerView.Adapter<CaptionedImages
         }
     }
 
-    public CaptionedImagesAdapter(Context context, List<Candy> candyList) {
+     CaptionedImagesAdapter(Context context, List<Candy> candyList) {
         this.candyArrayList = (ArrayList<Candy>) candyList;
         this.context = context;
     }
 
-    public void setListener(Listener listener) {
+    void setListener(Listener listener) {
         //Активности и фрагменты используют этот метод для регистрации себя в качестве слушателя
         this.listener = listener;
     }
 
     //Создание нового представления
     @Override
-    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public CaptionedImagesAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         //какой макет должен истользоваться для ViewHolder
         CardView cardView = (CardView) LayoutInflater.from(parent.getContext()).
                 inflate(R.layout.card_captioned_image, parent, false);
+
         final ViewHolder holder = new ViewHolder(cardView);
 
         cardView.setOnClickListener(new View.OnClickListener() {
@@ -113,7 +116,6 @@ public class CaptionedImagesAdapter extends RecyclerView.Adapter<CaptionedImages
         //Изображение выводится в графическом представлении ImageView.
         CardView cardView = holder.cardView;
 
-
         ImageView imageView = (ImageView) cardView.findViewById(R.id.info_image);
 
         int resourceID = context.getResources().getIdentifier(candyArrayList.get(position).getImageId(), "drawable", context.getPackageName());
@@ -121,8 +123,9 @@ public class CaptionedImagesAdapter extends RecyclerView.Adapter<CaptionedImages
         /**setImageDrawable получает картинку drawable = cardView.getResources().getDrawable(imageIds[position])
          //imageView.setImageDrawable(cardView.getResources().getDrawable(resourceID));*/
 
-        imageView.setImageDrawable(cardView.getResources().getDrawable(resourceID));
-
+      //  imageView.setImageDrawable(cardView.getResources().getDrawable(resourceID));
+        Drawable drawable = ContextCompat.getDrawable(this.context, resourceID);
+        imageView.setImageDrawable(drawable);
 
         imageView.setContentDescription(candyArrayList.get(position).getName());
 
@@ -139,15 +142,15 @@ public class CaptionedImagesAdapter extends RecyclerView.Adapter<CaptionedImages
         ratingBar.setRating(candyArrayList.get(position).getRating());
         ratingBar.isIndicator();
 
-        cardView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (listener != null) {
-                    //При щелчке на CardView вызвать метод onClick() интерфейса ListenerFavourite.
-                    listener.onClick(position+1);
-                }
-            }
-        });
+//        cardView.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                if (listener != null) {
+//                    //При щелчке на CardView вызвать метод onClick() интерфейса ListenerFavourite.
+//                    listener.onClick(position+1);
+//                }
+//            }
+//        });
     }
 
     @Override
