@@ -1,9 +1,5 @@
 package com.example.sun.lvivchocorating;
 
-/**
- * Created by sun on 13.09.17.
- */
-
 import android.app.Activity;
 import android.content.ContentValues;
 import android.content.Context;
@@ -97,7 +93,7 @@ public class CandyDetailActivity extends Activity {
 
                 name = (TextView) findViewById(R.id.candy_text);
                 name.setText(nameText);
-              //  name.setTypeface(robotoMedium);
+                //  name.setTypeface(robotoMedium);
 
                 int resourceID = this.getResources().getIdentifier(String.valueOf(photoId), "drawable", this.getPackageName());
                 imageView = (ImageView) findViewById(R.id.candy_image);
@@ -126,39 +122,65 @@ public class CandyDetailActivity extends Activity {
             toast.show();
         }
 
-//        RatingBar ratingBar = (RatingBar) findViewById(R.id.candy_ratingBar);
 
-//        ratingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
-//
-//            @Override
-//            public void onRatingChanged(RatingBar ratingBar, float rating,
-//                                        boolean fromUser) {
-//
-//                ratingBar.setRating(rating);
-//                Toast.makeText(CandyDetailActivity.this, "Смачно на: " + String.valueOf(rating) + " зірок",
-//                        Toast.LENGTH_SHORT).show();
-//            }
-//        });
+        RatingBar ratingBar = (RatingBar) findViewById(R.id.candy_ratingBar);
+
+        ratingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
+
+            @Override
+            public void onRatingChanged(RatingBar ratingBar, float rating,
+                                        boolean fromUser) {
+                ratingBar.setRating(rating);
+
+                Toast.makeText(CandyDetailActivity.this, "Смачно на: " + String.valueOf(rating) + " зірок",
+                        Toast.LENGTH_SHORT).show();
+                int candyNo = (Integer) getIntent().getExtras().get("candyNo");
+                new CandyDetailActivity.UpdateCandyTask().execute(candyNo);
+            }
+        });
+
+      //
     }
 
+    public void addListenerOnRatingBar(View view) {
 
-    public void onRatingCliked(View view) {
-        int candyNo = (Integer) getIntent().getExtras().get("candyNo");
-        new CandyDetailActivity.UpdateCandyTask().execute(candyNo);
+        RatingBar ratingBar = (RatingBar) view.findViewById(R.id.candy_ratingBar);
 
+
+        //if rating value is changed,
+        //display the current rating value in the result (textview) automatically
+
+        ratingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
+            @Override
+            public void onRatingChanged(RatingBar ratingBar, float rating,
+                                        boolean fromUser) {
+                int candyNo = (Integer) getIntent().getExtras().get("candyNo");
+                new CandyDetailActivity.UpdateCandyTask().execute(candyNo);
+
+            }
+        });
     }
+
+//
+//    public void onRatingCliked(View view) {
+//        int candyNo = (Integer) getIntent().getExtras().get("candyNo");
+//        new CandyDetailActivity.UpdateCandyTask().execute(candyNo);
+//
+//    }
 
     //Обновление базы данных по щелчку на флажке
     public void onFavouriteClicked(View view) {
+
         int candyNo = (Integer) getIntent().getExtras().get("candyNo");
-        new CandyDetailActivity.UpdateCandyTask().execute(candyNo);
         if (favourite.isChecked()) {
-            Toast.makeText(CandyDetailActivity.this, "Ви вподобали цукерку" + name.getText() + " зірок",
+            Toast.makeText(CandyDetailActivity.this, "Ви вподобали цукерку " + name.getText(),
                     Toast.LENGTH_SHORT).show();
         } else {
             Toast.makeText(CandyDetailActivity.this, "Вже не улюблена",
                     Toast.LENGTH_SHORT).show();
         }
+        new CandyDetailActivity.UpdateCandyTask().execute(candyNo);
+
     }
 
 
@@ -166,7 +188,7 @@ public class CandyDetailActivity extends Activity {
     // AsyncTask добавляется в активность в виде внутреннего класса.
     private class UpdateCandyTask extends AsyncTask<Integer, Void, Boolean> {
         ContentValues candyValues;
-        int ratingNO = 0;
+       // int ratingNO = 0;
 
         /**
          * Прежде чем запускать код базы данных
@@ -178,22 +200,28 @@ public class CandyDetailActivity extends Activity {
             CheckBox favourite = (CheckBox) findViewById(R.id.candy_favourite);
             RatingBar ratingBar = (RatingBar) findViewById(R.id.candy_ratingBar);
 
-            ratingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
 
-                @Override
-                public void onRatingChanged(RatingBar ratingBar, float rating,
-                                            boolean fromUser) {
-                    ratingNO = (int) rating;
-                    Toast.makeText(CandyDetailActivity.this, "Смачно на: " + String.valueOf(rating) + " зірок",
-                            Toast.LENGTH_SHORT).show();
-                }
-            });
+
+//            ratingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
+//
+//                @Override
+//                public void onRatingChanged(RatingBar ratingBar, float rating,
+//                                            boolean fromUser) {
+//                    ratingNO = (int) rating;
+//                    Toast.makeText(CandyDetailActivity.this, "Смачно на: " + String.valueOf(rating) + " зірок",
+//                            Toast.LENGTH_SHORT).show();
+//                }
+//            });
+
+           // Toast.makeText(CandyDetailActivity.this, "Смачно на: " + String.valueOf(ratingBar.getRating()) + " зірок", Toast.LENGTH_SHORT).show();
+
+
 
 
             candyValues = new ContentValues();
             //Значение флажка добавляється в обьект ContentValues  с именем candyValues
             candyValues.put("FAVOURITE", favourite.isChecked());
-            candyValues.put("RATING", ratingNO);
+            candyValues.put("RATING", ratingBar.getRating());
         }
 
         /**

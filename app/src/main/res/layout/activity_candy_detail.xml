@@ -77,7 +77,6 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:numStars="5"
-            android:onClick="onRatingCliked"
             android:stepSize="1" />
 
 

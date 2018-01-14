@@ -1,10 +1,12 @@
 package com.example.sun.lvivchocorating;
 
 import android.content.Context;
+import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -67,7 +69,7 @@ public class CaptionedImagesAdapter extends RecyclerView.Adapter<CaptionedImages
      * в  RecyclerView данные другого типа,
      * определите их здесь.
      */
-     static class ViewHolder extends RecyclerView.ViewHolder {
+    static class ViewHolder extends RecyclerView.ViewHolder {
         private CardView cardView;
 
         public ViewHolder(CardView view) {
@@ -76,7 +78,7 @@ public class CaptionedImagesAdapter extends RecyclerView.Adapter<CaptionedImages
         }
     }
 
-     CaptionedImagesAdapter(Context context, List<Candy> candyList) {
+    CaptionedImagesAdapter(Context context, List<Candy> candyList) {
         this.candyArrayList = (ArrayList<Candy>) candyList;
         this.context = context;
     }
@@ -101,8 +103,8 @@ public class CaptionedImagesAdapter extends RecyclerView.Adapter<CaptionedImages
                 if (listener != null) {
                     final int adapterPosition = holder.getAdapterPosition();
                     //При щелчке на CardView вызвать метод onClick() интерфейса ListenerFavourite.
-                   // if (adapterPosition != RecyclerView.NO_POSITION)
-                        listener.onClick(adapterPosition+1);
+                    // if (adapterPosition != RecyclerView.NO_POSITION)
+                    listener.onClick(adapterPosition + 1);
                 }
             }
         });
@@ -118,16 +120,25 @@ public class CaptionedImagesAdapter extends RecyclerView.Adapter<CaptionedImages
 
         ImageView imageView = (ImageView) cardView.findViewById(R.id.info_image);
 
-        int resourceID = context.getResources().getIdentifier(candyArrayList.get(position).getImageId(), "drawable", context.getPackageName());
+
 
         /**setImageDrawable получает картинку drawable = cardView.getResources().getDrawable(imageIds[position])
          //imageView.setImageDrawable(cardView.getResources().getDrawable(resourceID));*/
 
-      //  imageView.setImageDrawable(cardView.getResources().getDrawable(resourceID));
-        Drawable drawable = ContextCompat.getDrawable(this.context, resourceID);
-        imageView.setImageDrawable(drawable);
+        //  imageView.setImageDrawable(cardView.getResources().getDrawable(resourceID));
+        try {
+            int resourceID = context.getResources().getIdentifier(candyArrayList.get(position).getImageId(), "drawable", context.getPackageName());
+            Drawable drawable = ContextCompat.getDrawable(this.context, resourceID);
 
-        imageView.setContentDescription(candyArrayList.get(position).getName());
+            imageView.setImageDrawable(drawable);
+
+            imageView.setContentDescription(candyArrayList.get(position).getName());
+        } catch (Resources.NotFoundException e) {
+            Log.v("Drawable NotFoundEx", e.getMessage());
+
+        } catch (Exception e) {
+            Log.v("Exception", e.getMessage());
+        }
 
         TextView textView = (TextView) cardView.findViewById(R.id.info_text);
         textView.setText(candyArrayList.get(position).getName());
