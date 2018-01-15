@@ -11,6 +11,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CursorAdapter;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -24,6 +25,7 @@ public class CandiesMaterialFragment extends Fragment {
     ChocoDatabaseHelper databaseHelper;
     SQLiteDatabase db;
     Cursor cursor;
+    RecyclerView candyRecycler;
 
     public CandiesMaterialFragment() {
         // Required empty public constructor
@@ -38,10 +40,11 @@ public class CandiesMaterialFragment extends Fragment {
         databaseHelper = new ChocoDatabaseHelper(getActivity().getApplicationContext());
 
         //использование макета
-        RecyclerView candyRecycler = (RecyclerView) inflater.inflate(R.layout.fragment_candies_material, container, false);
+      //  RecyclerView
+        candyRecycler = (RecyclerView) inflater.inflate(R.layout.fragment_candies_material, container, false);
         candyList = new ArrayList<>();
 
-       // int candyNo = (Integer) getIntent().getExtras().get(EXTRA_CANDYNO);
+        // int candyNo = (Integer) getIntent().getExtras().get(EXTRA_CANDYNO);
 
         try {
 
@@ -98,11 +101,56 @@ public class CandiesMaterialFragment extends Fragment {
         return candyRecycler;
     }
 
+
     @Override
     public void onDestroy() {
         super.onDestroy();
         // Закрываем подключение и курсор
         db.close();
         cursor.close();
+    }
+    @Override
+    public void onResume() {
+        super.onResume();
+        //  new RestartTask().execute(favoritesCursor);
+
+        // int candyNo = (Integer) getIntent().getExtras().get(EXTRA_CANDYNO);
+       // RecyclerView candyRecycler = (RecyclerView) inflater.inflate(R.layout.fragment_candies_material, container, false);
+       // candyList = new ArrayList<>();
+        try {
+            ChocoDatabaseHelper databaseHelper = new ChocoDatabaseHelper(getActivity().getApplicationContext());
+            db = databaseHelper.getdb();
+            Cursor newCursor = db.query(ChocoDatabaseHelper.TABLE, new String[]{ChocoDatabaseHelper.COLUMN_NAME, ChocoDatabaseHelper.COLUMN_DESCRIPTION, ChocoDatabaseHelper.COLUMN_CATEGORY, ChocoDatabaseHelper.COLUMN_IMAGE_ID, ChocoDatabaseHelper.COLUMN_FAVOURITE, ChocoDatabaseHelper.COLUMN_RATING}, null, null, null, null, null);
+
+            String nameText;
+            String description;
+            String categoryText;
+            String photoId;
+            boolean isFavorite;
+            int ratingNum;
+
+            if (newCursor.moveToFirst()) {
+                do {
+                    nameText = cursor.getString(0);
+                    description = cursor.getString(1);
+                    categoryText = cursor.getString(2);
+                    photoId = cursor.getString(3);
+                    isFavorite = (cursor.getInt(4) == 1);
+                    ratingNum = cursor.getInt(5);
+                    candyList.add(new Candy(nameText, description, categoryText, photoId, isFavorite, ratingNum));
+                } while (cursor.moveToNext());
+            }
+
+            RecyclerView.Adapter adapter = candyRecycler.getAdapter();
+            adapter.
+            cursor = newCursor;
+
+        } catch (SQLiteException e) {
+            Toast toast = Toast.makeText(getActivity(), "Database is unavailable", Toast.LENGTH_SHORT);
+            toast.show();
+        }
+
+
+
     }
 }

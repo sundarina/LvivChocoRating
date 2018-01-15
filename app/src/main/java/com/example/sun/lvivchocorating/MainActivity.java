@@ -10,6 +10,7 @@ import android.os.Bundle;
 
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -39,7 +40,6 @@ public class MainActivity extends Activity {
             selectItem(position);
         }
     }
-
 
 
     @Override
@@ -104,23 +104,18 @@ public class MainActivity extends Activity {
                         // связанный с активностью, и присвоить currentPosition
                         // соответствующее значение.
 
-
                         if (fragment instanceof CandiesMaterialFragment) {
                             currentPosition = 0;
                         }
-
                         if (fragment instanceof FavouriteFragment) {
                             currentPosition = 1;
                         }
-
                         if (fragment instanceof RatingFragment) {
                             currentPosition = 2;
                         }
-
                         if (fragment instanceof OrderFragment) {
                             currentPosition = 3;
                         }
-
                         if (fragment instanceof ContactsFragment) {
                             currentPosition = 4;
                         }
@@ -196,7 +191,6 @@ public class MainActivity extends Activity {
 
     private void setActionBarTitle(int position) {
         String title;
-
         //Если пользователь выбрал вариант “Home”,
         // в качестве текста заголовка используется имя приложения.
         if (position == 0) {
@@ -229,19 +223,14 @@ public class MainActivity extends Activity {
     }
 
 
-
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-
         //Чтобы объект ActionBarDrawerToggle реагирвал на щелчки
-
         if (drawerToggle.onOptionsItemSelected(item)) {
             return true;
         }
-
         switch (item.getItemId()) {
             case R.id.action_create_order:
-               // Intent intent = new Intent(this, OrderActivity.class);
                 Intent intent = new Intent(this, OrderActivity.class);
                 startActivity(intent);
                 return true;
@@ -259,7 +248,8 @@ public class MainActivity extends Activity {
         shareActionProvider.setShareIntent(intent);
     }
 
-    @Override public void onSaveInstanceState(Bundle outState){
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putInt("position", currentPosition);
     }

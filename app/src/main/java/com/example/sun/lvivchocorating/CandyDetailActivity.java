@@ -142,24 +142,24 @@ public class CandyDetailActivity extends Activity {
       //
     }
 
-    public void addListenerOnRatingBar(View view) {
-
-        RatingBar ratingBar = (RatingBar) view.findViewById(R.id.candy_ratingBar);
-
-
-        //if rating value is changed,
-        //display the current rating value in the result (textview) automatically
-
-        ratingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
-            @Override
-            public void onRatingChanged(RatingBar ratingBar, float rating,
-                                        boolean fromUser) {
-                int candyNo = (Integer) getIntent().getExtras().get("candyNo");
-                new CandyDetailActivity.UpdateCandyTask().execute(candyNo);
-
-            }
-        });
-    }
+//    public void addListenerOnRatingBar(View view) {
+//
+//        RatingBar ratingBar = (RatingBar) view.findViewById(R.id.candy_ratingBar);
+//
+//
+//        //if rating value is changed,
+//        //display the current rating value in the result (textview) automatically
+//
+//        ratingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
+//            @Override
+//            public void onRatingChanged(RatingBar ratingBar, float rating,
+//                                        boolean fromUser) {
+//                int candyNo = (Integer) getIntent().getExtras().get("candyNo");
+//                new CandyDetailActivity.UpdateCandyTask().execute(candyNo);
+//
+//            }
+//        });
+//    }
 
 //
 //    public void onRatingCliked(View view) {
@@ -170,7 +170,6 @@ public class CandyDetailActivity extends Activity {
 
     //Обновление базы данных по щелчку на флажке
     public void onFavouriteClicked(View view) {
-
         int candyNo = (Integer) getIntent().getExtras().get("candyNo");
         if (favourite.isChecked()) {
             Toast.makeText(CandyDetailActivity.this, "Ви вподобали цукерку " + name.getText(),
@@ -180,7 +179,6 @@ public class CandyDetailActivity extends Activity {
                     Toast.LENGTH_SHORT).show();
         }
         new CandyDetailActivity.UpdateCandyTask().execute(candyNo);
-
     }
 
 
