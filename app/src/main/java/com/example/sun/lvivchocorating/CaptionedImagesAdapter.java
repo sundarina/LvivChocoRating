@@ -35,7 +35,7 @@ import java.util.List;
  * когда оно становится видимым
  */
 
-public class CaptionedImagesAdapter extends RecyclerView.Adapter<CaptionedImagesAdapter.ViewHolder> {
+public class CaptionedImagesAdapter extends CursorRecyclerViewAdapter<CaptionedImagesAdapter.ViewHolder> {
 
     private Context context;
     private Listener listener;
@@ -78,7 +78,8 @@ public class CaptionedImagesAdapter extends RecyclerView.Adapter<CaptionedImages
         }
     }
 
-    CaptionedImagesAdapter(Context context, List<Candy> candyList) {
+    CaptionedImagesAdapter(Context context, Cursor cursor, List<Candy> candyList) {
+        super(context, cursor);
         this.candyArrayList = (ArrayList<Candy>) candyList;
         this.context = context;
     }
@@ -114,12 +115,11 @@ public class CaptionedImagesAdapter extends RecyclerView.Adapter<CaptionedImages
 
     //Заполнение заданного представления данными
     @Override
-    public void onBindViewHolder(ViewHolder holder, final int position) {
+    public void onBindViewHolder(ViewHolder holder, Cursor cursor) {
         //Изображение выводится в графическом представлении ImageView.
         CardView cardView = holder.cardView;
 
         ImageView imageView = (ImageView) cardView.findViewById(R.id.info_image);
-
 
 
         /**setImageDrawable получает картинку drawable = cardView.getResources().getDrawable(imageIds[position])
@@ -127,12 +127,14 @@ public class CaptionedImagesAdapter extends RecyclerView.Adapter<CaptionedImages
 
         //  imageView.setImageDrawable(cardView.getResources().getDrawable(resourceID));
         try {
-            int resourceID = context.getResources().getIdentifier(candyArrayList.get(position).getImageId(), "drawable", context.getPackageName());
+            int resourceID = context.getResources().getIdentifier(candyArrayList.get(cursor.getPosition()
+            ).getImageId(), "drawable", context.getPackageName());
             Drawable drawable = ContextCompat.getDrawable(this.context, resourceID);
 
             imageView.setImageDrawable(drawable);
 
-            imageView.setContentDescription(candyArrayList.get(position).getName());
+            imageView.setContentDescription(candyArrayList.get(cursor.getPosition()
+            ).getName());
         } catch (Resources.NotFoundException e) {
             Log.v("Drawable NotFoundEx", e.getMessage());
 
@@ -141,16 +143,19 @@ public class CaptionedImagesAdapter extends RecyclerView.Adapter<CaptionedImages
         }
 
         TextView textView = (TextView) cardView.findViewById(R.id.info_text);
-        textView.setText(candyArrayList.get(position).getName());
+        textView.setText(candyArrayList.get(cursor.getPosition()
+        ).getName());
 
         TextView textView1 = (TextView) cardView.findViewById(R.id.info_category);
-        textView1.setText(candyArrayList.get(position).getCategory());
+        textView1.setText(candyArrayList.get(cursor.getPosition()
+        ).getCategory());
 
         CheckBox favorite = (CheckBox) cardView.findViewById(R.id.info_favourite);
-        favorite.setChecked(candyArrayList.get(position).isFavourite());
+        favorite.setChecked(candyArrayList.get(cursor.getPosition()
+        ).isFavourite());
 
         RatingBar ratingBar = (RatingBar) cardView.findViewById(R.id.info_ratingBar);
-        ratingBar.setRating(candyArrayList.get(position).getRating());
+        ratingBar.setRating(candyArrayList.get(cursor.getPosition()).getRating());
         ratingBar.isIndicator();
 
 //        cardView.setOnClickListener(new View.OnClickListener() {
@@ -175,8 +180,6 @@ public class CaptionedImagesAdapter extends RecyclerView.Adapter<CaptionedImages
     public int getItemCount() {
         return candyArrayList.size();
     }
-
-
 }
 
 

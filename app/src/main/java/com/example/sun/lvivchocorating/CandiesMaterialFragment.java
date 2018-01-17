@@ -11,7 +11,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.CursorAdapter;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -40,7 +39,7 @@ public class CandiesMaterialFragment extends Fragment {
         databaseHelper = new ChocoDatabaseHelper(getActivity().getApplicationContext());
 
         //использование макета
-      //  RecyclerView
+        //  RecyclerView
         candyRecycler = (RecyclerView) inflater.inflate(R.layout.fragment_candies_material, container, false);
         candyList = new ArrayList<>();
 
@@ -77,7 +76,7 @@ public class CandiesMaterialFragment extends Fragment {
         }
 
 
-        CaptionedImagesAdapter adapter = new CaptionedImagesAdapter(getActivity().getApplicationContext(), candyList);
+        CaptionedImagesAdapter adapter = new CaptionedImagesAdapter(getActivity().getApplicationContext(), cursor, candyList);
         candyRecycler.setAdapter(adapter);
 
         GridLayoutManager gridLayoutManager = new GridLayoutManager(getActivity(), 2);
@@ -103,20 +102,19 @@ public class CandiesMaterialFragment extends Fragment {
 
 
     @Override
-    public void onDestroy() {
-        super.onDestroy();
-        // Закрываем подключение и курсор
-        db.close();
-        cursor.close();
-    }
-    @Override
     public void onResume() {
         super.onResume();
-        //  new RestartTask().execute(favoritesCursor);
+        // new RestartTask().execute(cursor);
+
+        reloadRecyclerView();
+    }
+
+    private void reloadRecyclerView() {
 
         // int candyNo = (Integer) getIntent().getExtras().get(EXTRA_CANDYNO);
-       // RecyclerView candyRecycler = (RecyclerView) inflater.inflate(R.layout.fragment_candies_material, container, false);
-       // candyList = new ArrayList<>();
+        // RecyclerView candyRecycler = (RecyclerView) inflater.inflate(R.layout.fragment_candies_material, container, false);
+        // candyList = new ArrayList<>();
+
         try {
             ChocoDatabaseHelper databaseHelper = new ChocoDatabaseHelper(getActivity().getApplicationContext());
             db = databaseHelper.getdb();
@@ -129,28 +127,39 @@ public class CandiesMaterialFragment extends Fragment {
             boolean isFavorite;
             int ratingNum;
 
+            // для избежания выхода за границы ДБ проверка курсора
+
             if (newCursor.moveToFirst()) {
+
+                //   if ( cursor !=null && cursor.getCount() > 65) {
                 do {
-                    nameText = cursor.getString(0);
-                    description = cursor.getString(1);
-                    categoryText = cursor.getString(2);
-                    photoId = cursor.getString(3);
-                    isFavorite = (cursor.getInt(4) == 1);
-                    ratingNum = cursor.getInt(5);
+                    nameText = newCursor.getString(0);
+                    description = newCursor.getString(1);
+                    categoryText = newCursor.getString(2);
+                    photoId = newCursor.getString(3);
+                    isFavorite = (newCursor.getInt(4) == 1);
+                    ratingNum = newCursor.getInt(5);
                     candyList.add(new Candy(nameText, description, categoryText, photoId, isFavorite, ratingNum));
                 } while (cursor.moveToNext());
+                // }
             }
 
-            RecyclerView.Adapter adapter = candyRecycler.getAdapter();
-            adapter.
+            CursorRecyclerViewAdapter adapter = (CursorRecyclerViewAdapter) candyRecycler.getAdapter();
+            adapter.changeCursor(newCursor);
             cursor = newCursor;
+            adapter.notifyDataSetChanged();
 
         } catch (SQLiteException e) {
             Toast toast = Toast.makeText(getActivity(), "Database is unavailable", Toast.LENGTH_SHORT);
             toast.show();
         }
+    }
 
-
-
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        // Закрываем подключение и курсор
+        db.close();
+        cursor.close();
     }
 }
